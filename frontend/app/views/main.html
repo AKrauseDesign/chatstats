@@ -1,0 +1,156 @@
+<script type="text/ng-template" id="users.html">
+  <span><strong>{{u.name}}: </strong><span ng-bind-html="u.lastMsg | emotes"></span> <br>{{u.lastMsgDate | date:'short'}}</span>
+</script>
+<script type="text/ng-template" id="kpm.html">
+  <span><i class="fa fa-trophy"></i> KPM Record: XX</span>
+</script>
+<script type="text/ng-template" id="commands.html">
+  <span><strong>{{c.lastUser}}: </strong><span ng-bind-html="c.lastMsg | emotes"></span> <br>{{c.lastMsgDate | date:'short'}}</span>
+</script>
+<script type="text/ng-template" id="emotes.html">
+  <span><strong>{{e.lastUser}}: </strong><span ng-bind-html="e.lastMsg | emotes"></span> <br>{{e.lastMsgDate | date:'short'}}</span>
+</script>
+<script type="text/ng-template" id="subemotes.html">
+  <span><strong>{{se.lastUser}}: </strong><span ng-bind-html="se.lastMsg | emotes"></span> <br>{{se.lastMsgDate | date:'short'}}</span>
+</script>
+<script type="text/ng-template" id="hashtags.html">
+  <span><strong>{{h.lastUser}}: </strong><span ng-bind-html="h.lastMsg | emotes"></span> <br>{{h.lastMsgDate | date:'short'}}</span>
+</script>
+<audio src="http://mjweaver01.com/data/uploads/airhorn.mp3" preload="auto"></audio>
+<div class="well well-sm chat">
+  <div class="text-center">
+    <h1 ng-show="!initialized"><i class="fa fa-cog fa-spin"></i> Queuing up for stats <i class="fa fa-cog fa-spin"></i></h1>
+  </div>
+  <table class='table'>
+    <tbody>
+      <tr ng-repeat="c in chat | limitTo: 4">
+        <td>
+          <p>
+            {{c.date | date:'mediumTime'}} <strong>{{c.name}}: </strong> <span ng-bind-html="c.msg | emotes"></span>
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="row text-center">
+  <div class="col-md-6">
+    <div class="well well-sm">
+      <h1>Total Messages: {{totalMessages | number}}</h1>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="well well-sm">
+      <h1><img class="kappa" ng-src="images/kappa.png" alt="" /> Per Minute: {{kappaPerMinute | number}}</h1>
+    </div>
+  </div>
+</div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="well well-sm">
+        <h3>Most active users</h3>
+        <table class='table table-striped'>
+          <tbody>
+            <tr ng-repeat="u in users | limitTo: 30 | orderBy:'-count'" tooltip-placement="left" tooltip-template="'users.html'">
+              <td>
+                {{$index+1}}
+              </td>
+              <td >
+                <strong>{{u.name}}</strong>
+              </td>
+              <td>
+                {{u.count}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="well well-sm">
+        <h3>Most used emotes</h3>
+        <table class='table table-striped table-condensed'>
+          <tbody>
+            <tr ng-repeat="e in emotes | limitTo: 30 | orderBy:'-count'" tooltip-placement="left" tooltip-template="'emotes.html'">
+              <td>
+                {{$index+1}}
+              </td>
+              <td style="width: 20px" class="emote">
+                <span ng-bind-html="e.emote | emotes"></span>
+              </td>
+              <td>
+                <strong>{{e.emote}}</strong>
+              </td>
+              <td>
+                {{e.count}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="well well-sm">
+        <h3>Most used sub emotes</h3>
+        <table class='table table-striped table-condensed'>
+          <tbody>
+            <tr ng-repeat="se in subEmotes | limitTo: 10 | orderBy:'-count'" tooltip-placement="left" tooltip-template="'subemotes.html'">
+              <td>
+                {{$index+1}}
+              </td>
+              <td style="width: 20px" class="emote">
+                <span ng-bind-html="se.emote | emotes"></span>
+              </td>
+              <td>
+                <strong>{{se.emote}}</strong>
+              </td>
+              <td>
+                {{se.count}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="well well-sm">
+        <h3>Most used commands</h3>
+        <table class='table table-striped'>
+          <tbody>
+            <tr ng-repeat="c in commands | limitTo: 10 | orderBy:'-count'" tooltip-placement="left" tooltip-template="'commands.html'">
+              <td>
+                {{$index+1}}
+              </td>
+              <td>
+                <strong>{{c.command}}</strong>
+              </td>
+              <td>
+                {{c.count}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="well well-sm">
+        <h3>Most used hashtags</h3>
+        <table class='table table-striped'>
+          <tbody>
+            <tr ng-repeat="h in hashtags | limitTo: 7 | orderBy:'-count'" tooltip-placement="left" tooltip-template="'hashtags.html'">
+              <td>
+                {{$index+1}}
+              </td>
+              <td>
+                <strong>{{h.hashtag}}</strong>
+              </td>
+              <td>
+                {{h.count}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

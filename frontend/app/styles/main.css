@@ -1,0 +1,196 @@
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+body {
+  padding: 0;
+  background:#f0f3f4;
+  color:#58666e;
+  line-height:1.5;
+  font-family:'Lato'
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Custom page header */
+.header {
+  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 10px;
+}
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  padding-bottom: 19px;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+}
+.ng-enter {
+    transition: 0.2s all easy-ease-in;
+    -webkit-animation: fadeInUp 0.2s;
+    animation: fadeIn 0.2s;
+}
+h3 {
+  font-weight: 400;
+  font-family: Lato;
+  text-align: center;
+  margin-top: 0;
+}
+.main-header {
+  margin: 130px 0 10px;
+  font-family: lato;
+  font-weight: 400;
+  letter-spacing: 10px;
+  text-transform: uppercase;
+}
+.chat {
+  max-height: 250px;
+  min-height: 250px !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 20px 40px;
+}
+.well-sm {
+  min-height: 100px;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 1px 0px rgba(0, 0, 0, .05), 0 1px 6px rgba(0, 0, 0, .10);
+  /*padding: 5px;*/
+}
+.table {
+   margin-bottom: 5px;
+   font-size: 16px;
+}
+/* CUSTOM SCROLLBAR */
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    -webkit-transition: all .1s linear;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0);
+}
+::-webkit-scrollbar-track:hover {
+    background: rgba(0, 0, 0, .2);
+}
+::-webkit-scrollbar-thumb {
+    background: #a5abb1;
+}
+.ng-binding {
+  transition: all 1s;
+  -webkit-transition: all 1s ease-in-out;
+}
+.kappa {
+  height: 45px;
+  widows: 45px;
+}
+
+/* HALL OF FAME*/
+/*.trophy {
+  font-size: 100px;
+}
+.gold {
+  font-size: 200px;
+  color: gold;
+}
+.silver {
+  color: silver;
+}
+.bronze {
+  color: #C77A2D;
+}*/
+
+.trophies {
+  width: 100%;
+  padding: 10px;
+  position: relative;
+  height: 300px;
+}
+
+.trophies span.trophy {
+  width: 30%;
+  display: inline-block;
+  background-color: #58666e;
+  padding: 10px;
+  margin-top: 70px;
+  color: #fff;
+  text-align: center;
+  font-size: 2em;
+  position: absolute;
+  bottom: 0;
+}
+
+.trophies span.trophy:first-child {
+  height: 90px;
+}
+
+.trophies span.trophy:nth-child(2) {
+  height: 180px;
+  left: 34%;
+}
+
+.trophies span.trophy:last-child {
+  height: 130px;
+  left: 67%;
+}
+.stickman {
+  background-image: url('../images/stickman.png');
+  height: 100%;
+}
