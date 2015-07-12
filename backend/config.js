@@ -1,4 +1,4 @@
-var setup = {}
+var setup = {};
 
 // database
 this.host = 'localhost';
