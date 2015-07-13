@@ -14,32 +14,17 @@ var irc = require("tmi.js"),
     app = require('express')(),
     http = require('http').Server(app),
     io = require('socket.io')(http),
-    config = require('./config.js'),
-
+    config = require('./config'),
     fs = require('fs'),
     morgan = require('morgan');
+
     app.use(morgan('dev'));
 
-// TMI Config
-var options = {
-    options: {
-        debug: true
-    },
-    connection: {
-        random: "chat",
-        reconnect: true
-    },
-    identity: {
-        username: config.name,
-        password: config.oauth
-    },
-    channels: config.channels
-};
 
-var client = new irc.client(options);
+var client = new irc.client(config.tmi);
 client.connect();
-http.listen(3000, function(){
-  console.log('Connection Successful: listening on *:3000');
+http.listen(config.port, function(){
+  console.log('Connection Successful: listening on *:' + config.port);
 });
 
 if (fs.existsSync('./handlers')) {
