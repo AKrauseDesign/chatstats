@@ -6,8 +6,7 @@ var app = require('express')(),
 // Temp Vars
 var KPM = 0;
 
-module.chat = function(channel, user, message, self){
-  console.log(user);
+module.exports.chat = function(channel, user, message, self){
   io.emit('stats', {
     user: {
       user: user['display-name'],
@@ -21,14 +20,14 @@ module.chat = function(channel, user, message, self){
   });
 };
 
-module.timeout = function(channel, username){
-
+module.exports.timeout = function(channel, username){
+  console.log('123');
 };
 
-module.subscriber = function(channel, username){
-
+module.exports.subscriber = function(channel, username){
+  console.log('123');
 };
 
-module.subanniversary = function(channel, username, months){
-
+module.exports.subanniversary = function(channel, username, months){
+  console.log('123');
 };

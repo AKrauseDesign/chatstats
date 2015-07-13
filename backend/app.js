@@ -15,7 +15,7 @@ var irc = require("tmi.js"),
     http = require('http').Server(app),
     io = require('socket.io')(http),
     config = require('./config.js'),
-    handler = require('./handlers.js'),
+
     fs = require('fs'),
     morgan = require('morgan');
     app.use(morgan('dev'));
@@ -42,23 +42,8 @@ http.listen(3000, function(){
   console.log('Connection Successful: listening on *:3000');
 });
 
-
-// ----------------------------------------- //
-// Event listeners
-
-client.addListener('chat', handler.chat);
-client.addListener('timeout', handler.timeout);
-
-client.addListener('subscriber', handler.subscriber);
-client.addListener('subanniversary', handler.subanniversary);
-
-// ----------------------------------------- //
-// Models
-
-if (fs.existsSync('./handler')) {
-  fs.readdirSync('./handler/').forEach(function (file) {
-    if (!(/(^|.\/)\.+[^\/\.]/g).test(file)) {
-      require('./handler/' + file)(client, io);
-    }
+if (fs.existsSync('./handlers')) {
+  fs.readdirSync('./handlers').forEach(function(file) {
+    require('./handlers/' + file)(client, io);
   });
 }
