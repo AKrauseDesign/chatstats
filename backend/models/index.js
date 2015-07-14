@@ -4,6 +4,7 @@ var fs        = require("fs");
 var path      = require("path");
 var Sequelize = require("sequelize");
 var config    = require('../config');
+var db        = {};
 var sequelize = new Sequelize(config.database.database, config.database.user, config.database.pass, {
   host: config.database.host,
   dialect: 'mysql',
@@ -14,7 +15,7 @@ var sequelize = new Sequelize(config.database.database, config.database.user, co
     idle: 10000
   }
 });
-var db        = {};
+
 fs
   .readdirSync(__dirname)
   .filter(function(file) {

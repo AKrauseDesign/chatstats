@@ -22,11 +22,10 @@ var irc = require("tmi.js"),
 
 
 app.get('/', function(req, res){
-    res.json({
-      status: 200,
-      message: 'if i had some duct tape i could fix that',
-
-    });
+  res.json({
+    status: 200,
+    message: 'if i had some duct tape i could fix that',
+  });
 });
 
 var client = new irc.client(config.tmi);
@@ -40,6 +39,16 @@ db.sequelize.sync({force: true}).then(function () {
 
 if (fs.existsSync('./handlers')) {
   fs.readdirSync('./handlers').forEach(function(file) {
-    require('./handlers/' + file)(client, io, db);
+    require('./handlers/' + file)(client, db);
+  });
+}
+if (fs.existsSync('./events')) {
+  fs.readdirSync('./events').forEach(function(file) {
+    require('./commands/' + file)(client, io, db);
+  });
+}
+if (fs.existsSync('./commands')) {
+  fs.readdirSync('./commands').forEach(function(file) {
+    require('./commands/' + file)(client, db);
   });
 }
