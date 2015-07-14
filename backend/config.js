@@ -18,17 +18,18 @@ var tmi = {
   },
   channels: identity.channels
 };
+var database = {
+  host: 'localhost',
+  user: 'root',
+  pass: 'gaffet',
+  database: 'chatstats'
+};
 
 var port = 3000;
 
 module.exports = {
   tmi: tmi,
   identity: identity,
-  port: port
+  port: port,
+  database: database
 };
-
-// database
-// this.host = 'localhost';
-// this.user = 'root';
-// this.pass = 'gaffet';
-// this.database = 'ChatStats';

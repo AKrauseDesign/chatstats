@@ -25,9 +25,12 @@
     <tbody>
       <tr ng-repeat="c in chat | limitTo: 4">
         <td>
-          <p>
-            {{c.date | date:'mediumTime'}} <strong>{{c.name}}: </strong> <span ng-bind-html="c.msg | emotes"></span>
-          </p>
+            {{c.date | date:'mediumTime'}}
+            <div ng-if="c.user.turbo" class="chat-badge turbo" tooltip='Twitch Turbo'></div>
+            <div ng-if="c.user.mod" class="chat-badge mod" tooltip='Moderator'></div>
+            <div ng-if="c.user.dev" class="chat-badge dev" tooltip='Developer'></div>
+            <div ng-if="c.user.sub" class="chat-badge sub" tooltip='Channel Subscriber'></div>
+            <strong style="color: {{c.user.color}}">{{c.user.name}}: </strong> <span ng-bind-html="c.msg"></span>
         </td>
       </tr>
     </tbody>

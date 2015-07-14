@@ -107,6 +107,29 @@ h3 {
   text-overflow: ellipsis;
   padding: 20px 40px;
 }
+.chat-badge {
+  height: 18px;
+  width: 18px;
+  display: inline-block;
+  margin: 0 2px 0 2px;
+}
+.turbo {
+  background-image: url('http://chat-badges.s3.amazonaws.com/turbo.png')
+}
+.sub {
+  background-image: url('http://static-cdn.jtvnw.net/jtv_user_pictures/badges/1130/18x18.png');
+}
+.mod {
+  background-image: url('http://chat-badges.s3.amazonaws.com/mod.png');
+}
+.dev {
+  background-image: url('http://stylerdev.io/images/stylerdev.png');
+}
+
+td.p {
+  display: inline;
+}
+
 .well-sm {
   min-height: 100px;
   border: 0;
@@ -141,7 +164,9 @@ h3 {
   height: 45px;
   widows: 45px;
 }
-
+.panel-body {
+  min-height: 580px;
+}
 /* HALL OF FAME*/
 /*.trophy {
   font-size: 100px;

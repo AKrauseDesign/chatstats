@@ -1,14 +1,30 @@
-module.exports = function(client, io) {
+module.exports = function(client, io, db) {
+  var kpm = 0;
+  var total = 0;
   client.addListener('chat', function (channel, user, message) {
+    var username;
+    if(user['display-name'] === null) {
+      username = user.username;
+    } else {
+      username = user['display-name'];
+    }
+
+    var dev = false;
+    if(user.username === 'darkoe123' || user.username === 'stylerdev' || user.username === 'timohstudios') {
+      dev = true;
+    }
     io.emit('stats', {
       user: {
-        user: user['display-name'],
+        name: username,
         color: user.color,
-        sub : user.subscriber,
+        dev: dev,
+        mod: user['user-type'],
+        sub: user.subscriber,
         turbo: user.turbo
       },
       msg: message,
-      kpm: KPM,
+      total: total,
+      kpm: kpm,
       date: Date.now()
     });
   });

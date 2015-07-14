@@ -10,7 +10,7 @@
 
 // Dependencies
 var irc = require("tmi.js"),
-    mongoose = require('mongoose'),
+    db = require("./models"),
     app = require('express')(),
     http = require('http').Server(app),
     io = require('socket.io')(http),
@@ -21,14 +21,25 @@ var irc = require("tmi.js"),
     app.use(morgan('dev'));
 
 
+app.get('/', function(req, res){
+    res.json({
+      status: 200,
+      message: 'if i had some duct tape i could fix that',
+
+    });
+});
+
 var client = new irc.client(config.tmi);
 client.connect();
-http.listen(config.port, function(){
-  console.log('Connection Successful: listening on *:' + config.port);
+
+db.sequelize.sync({force: true}).then(function () {
+  http.listen(config.port, function(){
+    console.log('Connection Successful: listening on *:' + config.port);
+  });
 });
 
 if (fs.existsSync('./handlers')) {
   fs.readdirSync('./handlers').forEach(function(file) {
-    require('./handlers/' + file)(client, io);
+    require('./handlers/' + file)(client, io, db);
   });
 }
