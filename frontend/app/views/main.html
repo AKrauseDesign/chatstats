@@ -59,6 +59,8 @@
                 {{$index+1}}
               </td>
               <td >
+                <div ng-if="u.name === 'stylerdev'" class="chat-badge mod" tooltip='Moderator'></div>
+                <div ng-if="u.name === 'stylerdev'" class="chat-badge sub" tooltip='Moderator'></div>
                 <strong>{{u.name}}</strong>
               </td>
               <td>

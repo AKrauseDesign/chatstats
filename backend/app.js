@@ -21,6 +21,7 @@ var irc = require("tmi.js"),
     morgan = require('morgan');
 
     app.use(morgan('dev'));
+    var cors = require('cors');
 
 
 app.get('/', function(req, res){
@@ -29,7 +30,22 @@ app.get('/', function(req, res){
     message: 'if i had some duct tape i could fix that',
   });
 });
-
+app.get('/lookup/:user', cors(), function(req, res){
+  db.Users.findOne({ where: {name: req.params.user} }).then(function(user) {
+    if(user !== null){
+      res.status(200);
+      res.json({
+        message: user
+      });
+    } else {
+      res.status(400);
+      res.json({
+        status: 400,
+        message: 'No data'
+      })
+    }
+  });
+});
 var client = new irc.client(config.tmi);
 client.connect();
 

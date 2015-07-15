@@ -15,15 +15,15 @@ angular.module('websiteApp')
     };
     $scope.doSearch = function() {
       $scope.foundUser = 1;
-      $http.get('http://demo6445093.mockable.io/chatstats').
+      $http.get('http://localhost:3000/lookup/'+$scope.searchQuery).
       success(function(data) {
+        data = data.user;
         $scope.name = data.name;
         $scope.watchedTime = data.watchedTime;
         $scope.count = data.count;
         $scope.lastMsg = data.lastMsg;
         $scope.foundUser = 2;
-      }).
-      error(function(data) {
+      }).error(function() {
         $scope.foundUser = 3;
       });
     };
