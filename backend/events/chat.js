@@ -6,7 +6,8 @@ module.exports = function(client, io, db) {
   client.addListener('chat', function (channel, user, message) {
 
     // Global Database Handler
-    handler(user['display-name'], message);
+    handler(user, message);
+
     var username;
     if(user['display-name'] === null) {
       username = user.username;
