@@ -1,12 +1,12 @@
-var handler = require('../handlers/handler.js');
+var handler  = require('../handlers/handler.js');
+
 module.exports = function(client, io, db) {
   var kpm = 0;
   var total = 0;
   client.addListener('chat', function (channel, user, message) {
-    
-    // Global Database Handler
-    handler(user, message);
 
+    // Global Database Handler
+    handler(user.username, message);
     var username;
     if(user['display-name'] === null) {
       username = user.username;

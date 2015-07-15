@@ -1,9 +1,27 @@
-module.exports = function(user, message, client, db) {
-  var bots = ['nightbot', 'moobot', 'xanbot'];
-  console.log(message);
-  if(user.username !== bots[0] || bots[1] || bots[2]) {
-    return false;
+var userHandler = require('../handlers/users.js');
+var hashtagHandler = require('../handlers/hashtags.js');
+var emoteHandler = require('../handlers/emotes.js');
+var commandHandler = require('../handlers/commands.js');
+module.exports = function(user, message){
+
+  // Hashtag Handler
+  var regExHash = /(#)([a-zA-Z0-9_]+)/g, execHash;
+  execHash = regExHash.exec(message);
+  if (execHash !== null) {
+    if (execHash[1] === '#') {
+      hashtagHandler(execHash[1], user, message);
+    }
   }
 
+  // Command Handler
+  var regExCommand = /(!)([a-zA-Z0-9_]+)/g, execCommand;
+  execCommand = regExCommand.exec(message);
+  if (execCommand !== null) {
+    if (execCommand[1] === '#') {
+      hashtagHandler(execCommand[1], user, message);
+    }
+  }
 
+  // User Handler
+  userHandler(user, message);
 };

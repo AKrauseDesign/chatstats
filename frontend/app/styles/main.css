@@ -112,6 +112,7 @@ h3 {
   width: 18px;
   display: inline-block;
   margin: 0 2px 0 2px;
+  border-radius: 2px;
 }
 .turbo {
   background-image: url('http://chat-badges.s3.amazonaws.com/turbo.png')

@@ -14,8 +14,10 @@ var irc = require("tmi.js"),
     app = require('express')(),
     http = require('http').Server(app),
     io = require('socket.io')(http),
+    request = require('request'),
     config = require('./config'),
     fs = require('fs'),
+    initial = require('./handlers/initial.js')(client, io, db),
     morgan = require('morgan');
 
     app.use(morgan('dev'));
@@ -31,24 +33,18 @@ app.get('/', function(req, res){
 var client = new irc.client(config.tmi);
 client.connect();
 
-db.sequelize.sync({force: true}).then(function () {
+db.sequelize.sync().then(function () {
   http.listen(config.port, function(){
     console.log('Connection Successful: listening on *:' + config.port);
   });
 });
-
-if (fs.existsSync('./handlers')) {
-  fs.readdirSync('./handlers').forEach(function(file) {
-    require('./handlers/' + file)(client, db);
-  });
-}
 if (fs.existsSync('./events')) {
   fs.readdirSync('./events').forEach(function(file) {
-    require('./commands/' + file)(client, io, db);
+    require('./events/' + file)(client, io, db);
   });
 }
 if (fs.existsSync('./commands')) {
   fs.readdirSync('./commands').forEach(function(file) {
-    require('./commands/' + file)(client, db);
+    require('./commands/' + file)(client, db, request);
   });
 }
