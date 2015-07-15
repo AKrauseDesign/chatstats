@@ -2,7 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Commands = sequelize.define("Commands", {
-    emote: {
+    command: {
       type: DataTypes.STRING
     },
     lastUser: {

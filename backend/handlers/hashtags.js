@@ -1,19 +1,17 @@
-module.exports = function(client, db) {
-
-};
-module.exports.hashtags = function(user, message){
-  Hashtags.findOrCreate(
+var db = require('../models/');
+module.exports = function(hashtag, user, message){
+  db.Hashtags.findOrCreate(
     {where:
-      { hashtag: execHash[0] },
+      { hashtag: hashtag },
   }).spread(function(user1) {
     user1.increment('count', {by: 1});
-    Hashtags
+    db.Hashtags
     .update({
       lastMsg: message,
-      lastUser: user.username
+      lastUser: user
     }, {
       where: {
-        hashtag: execHash[0]
+        hashtag: hashtag
       }
     }
     );

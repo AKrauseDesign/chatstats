@@ -9,7 +9,7 @@ module.exports = function(user, message){
   execHash = regExHash.exec(message);
   if (execHash !== null) {
     if (execHash[1] === '#') {
-      hashtagHandler(execHash[1], user, message);
+      hashtagHandler(execHash[0], user, message);
     }
   }
 
@@ -17,8 +17,8 @@ module.exports = function(user, message){
   var regExCommand = /(!)([a-zA-Z0-9_]+)/g, execCommand;
   execCommand = regExCommand.exec(message);
   if (execCommand !== null) {
-    if (execCommand[1] === '#') {
-      hashtagHandler(execCommand[1], user, message);
+    if (execCommand[1] === '!') {
+      commandHandler(execCommand[0], user, message);
     }
   }
 

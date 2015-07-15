@@ -1,12 +1,19 @@
 var db = require('../models/');
 module.exports = function(command, user, message){
-  db.Users.findOrCreate(
+  db.Commands.findOrCreate(
     {where:
-      { name: user },
-      defaults: {lastMsg: message}
-    }).spread(function(user1) { user1.increment('count', {by: 1});
-    db.Users.update({
+      { command: command },
+  }).spread(function(user1) {
+    user1.increment('count', {by: 1});
+    db.Commands
+    .update({
       lastMsg: message,
-    },{ where: { name: user }});
+      lastUser: user
+    }, {
+      where: {
+        command: command
+      }
+    }
+    );
   });
 };
