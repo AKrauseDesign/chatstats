@@ -1,4 +1,4 @@
-module.exports = function(client, io, db) {
+module.exports = function(io, db) {
   var users = [];
   var commands = [];
   var emotes = [];

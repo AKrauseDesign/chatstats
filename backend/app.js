@@ -17,7 +17,7 @@ var irc = require("tmi.js"),
     request = require('request'),
     config = require('./config'),
     fs = require('fs'),
-    initial = require('./handlers/initial.js')(client, io, db),
+    initial = require('./handlers/initial.js')(io, db),
     morgan = require('morgan');
 
     app.use(morgan('dev'));
@@ -42,13 +42,26 @@ app.get('/lookup/:user', cors(), function(req, res){
       res.json({
         status: 400,
         message: 'No data'
-      })
+      });
     }
   });
 });
 var client = new irc.client(config.tmi);
 client.connect();
 
+// var subEmotes = {};
+// request('https://api.twitch.tv/kraken/chat/massansc/emoticons', function(err, res, body) {
+//   if(!err && res.statusCode === 200) {
+//     subEmotes = JSON.parse(body);
+//     subEmotes = subEmotes.emoticons;
+//     subEmotes.filter(function(emote) {
+//       console.log(emote.subscriber_only);
+//       return emote.subscriber_only;
+//     });
+//   }
+// });
+
+var watchedTime = require('./handlers/watchedTime.js')(client, db);
 db.sequelize.sync().then(function () {
   http.listen(config.port, function(){
     console.log('Connection Successful: listening on *:' + config.port);

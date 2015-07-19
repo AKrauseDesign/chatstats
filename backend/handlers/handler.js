@@ -4,6 +4,7 @@ var emoteHandler = require('../handlers/emotes.js');
 var commandHandler = require('../handlers/commands.js');
 module.exports = function(userObj, message) {
   var user = userObj['display-name'];
+  var emoteObject = {};
 
   // Hashtag Handler
   var regExHash = /(#)([a-zA-Z0-9_]+)/g, execHash;
@@ -24,25 +25,26 @@ module.exports = function(userObj, message) {
   }
 
   // Emote Handler
-  var formatEmotes = function(text, emotes) {
-    var splitText = text.split('');
-    for(var i in emotes) {
-      var e = emotes[i];
-      for(var j in e) {
-        var subStr = e[j];
-        if(typeof subStr == 'string') {
-          subStr = subStr.split('-');
-          subStr = [parseInt(subStr[0]), parseInt(subStr[1])];
-          var length = subStr[1] - subStr[0];
-          var empty = Array.apply(null, new Array(length + 1)).map(function() {return '';});
-          splitText = splitText.slice(0, subStr[0]).concat(empty).concat(splitText.slice(subStr[1] + 1, splitText.length));
-        }
+  var formatEmotes = function(emotes) {
+    for(var emote in emotes) {
+      var subStrArray = emotes[emote];
+      if(emoteObject.hasOwnProperty(emote)) {
+        emoteObject[emote] =+ subStrArray.length;
+      } else {
+        emoteObject[emote] = subStrArray.length;
       }
     }
-    return splitText.join('');
   };
 
-  console.log(formatEmotes(message, userObj.emotes));
+  var callEmoteDB = function(emoteObject) {
+    for (var emote in emoteObject) {
+      emoteHandler(emote, emoteObject[emote], user, message);
+    }
+  };
+
+  formatEmotes(userObj.emotes);
+  callEmoteDB(emoteObject);
+
   // User Handler
   userHandler(user, message);
 };
