@@ -27,6 +27,11 @@ module.exports = function(userObj, message) {
   // Emote Handler
   var formatEmotes = function(emotes) {
     for(var emote in emotes) {
+      for(var i = 0; i < subEmotes.length; i++) {
+        if (emote === subEmotes[i].regex) {
+          
+        }
+      }
       var subStrArray = emotes[emote];
       if(emoteObject.hasOwnProperty(emote)) {
         emoteObject[emote] =+ subStrArray.length;

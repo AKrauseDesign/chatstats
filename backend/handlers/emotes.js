@@ -17,32 +17,3 @@ module.exports = function(foundEmote, amount, user, message) {
     );
   });
 };
-
-
-/*
-var callDB = function(emoteObject) {
-  for (var emote in emoteObject) {
-    emoteDB(emote, emoteObject[emote]);
-  }
-};
-
-var words = message.split(' ');
-var emoteObject = {};
-
-for (var current = 0; current < globalEmotes.length; current++) {
-  var id = globalEmotes[current].id;
-  for (var i = 0; i < words.length; i++) {
-    if (words[i] === globalEmotes[current].code) {
-      if(emoteObject.hasOwnProperty(id)) {
-        emoteObject[id]++;
-      } else {
-        emoteObject[id] = 1;
-      }
-    }
-  }
-}
-
-callDB(emoteObject);
-
-
-*/

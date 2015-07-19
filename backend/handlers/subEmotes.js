@@ -1,11 +1,11 @@
 var db = require('../models/');
 module.exports = function(foundEmote, amount, user, message) {
-  db.Emotes.findOrCreate(
+  db.Subemotes.findOrCreate(
     {where:
       { emote: foundEmote },
   }).spread(function(emoteCount) {
     emoteCount.increment('count', {by: amount});
-    db.Emotes
+    db.Subemotes
     .update({
       lastMsg: message,
       lastUser: user

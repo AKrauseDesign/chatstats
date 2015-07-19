@@ -49,17 +49,20 @@ app.get('/lookup/:user', cors(), function(req, res){
 var client = new irc.client(config.tmi);
 client.connect();
 
-// var subEmotes = {};
-// request('https://api.twitch.tv/kraken/chat/massansc/emoticons', function(err, res, body) {
-//   if(!err && res.statusCode === 200) {
-//     subEmotes = JSON.parse(body);
-//     subEmotes = subEmotes.emoticons;
-//     subEmotes.filter(function(emote) {
-//       console.log(emote.subscriber_only);
-//       return emote.subscriber_only;
-//     });
-//   }
-// });
+var emotes = {};
+var subEmotes = [];
+request('https://api.twitch.tv/kraken/chat/massansc/emoticons', function(err, res, body) {
+  if(!err && res.statusCode === 200) {
+    emotes = JSON.parse(body);
+    emotes = emotes.emoticons;
+    for (var emote in emotes) {
+      if (emotes[emote].subscriber_only === true) {
+        subEmotes.push(emotes[emote]);
+      }
+    }
+    console.log(subEmotes);
+  }
+});
 
 var watchedTime = require('./handlers/watchedTime.js')(client, db);
 db.sequelize.sync().then(function () {
