@@ -1,7 +1,25 @@
-var userHandler = require('../handlers/users.js');
-var hashtagHandler = require('../handlers/hashtags.js');
-var emoteHandler = require('../handlers/emotes.js');
-var commandHandler = require('../handlers/commands.js');
+var userHandler = require('./users.js');
+var hashtagHandler = require('.hashtags.js');
+var emoteHandler = require('./emotes.js');
+var commandHandler = require('./commands.js');
+
+var emotes = {};
+var subEmotes = [];
+request('https://api.twitch.tv/kraken/chat/massansc/emoticons', function(err, res, body) {
+  console.warn('Fired request');
+  if(!err && res.statusCode === 200) {
+    emotes = JSON.parse(body);
+    emotes = emotes.emoticons;
+    for (var emote in emotes) {
+      if (emotes[emote].subscriber_only === true) {
+        subEmotes.push(emotes[emote]);
+      }
+    }
+  } else {
+    console.error('Couldn\'t get subscriber emotes.');
+  }
+});
+
 module.exports = function(userObj, message) {
   var user = userObj['display-name'];
   var emoteObject = {};
@@ -29,7 +47,7 @@ module.exports = function(userObj, message) {
     for(var emote in emotes) {
       for(var i = 0; i < subEmotes.length; i++) {
         if (emote === subEmotes[i].regex) {
-          
+
         }
       }
       var subStrArray = emotes[emote];
