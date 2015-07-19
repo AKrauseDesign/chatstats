@@ -2,7 +2,6 @@ var currentCombo = 2;
 var comboEvent = 'subscriber-combo';
 
 module.exports = function(client, io) {
-  // TODO: Count subscribers
   var countdown = setTimeout(function() {
     currentCombo = 0;
     io.emit(comboEvent, {
@@ -12,13 +11,11 @@ module.exports = function(client, io) {
   }, 60 * 1000);
 
   client.addListener('subscriber', function (channel, user, message) {
-
-
     currentCombo++;
     if (currentCombo > 1) {
       io.emit(comboEvent, {
         combo: currentCombo,
-        lastSubscriber: 'Timo'
+        lastSubscriber: user['display-name']
       });
     }
   });
