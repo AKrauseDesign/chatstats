@@ -30,7 +30,7 @@
             <div ng-if="c.user.mod" class="chat-badge mod" tooltip='Moderator'></div>
             <div ng-if="c.user.dev" class="chat-badge dev" tooltip='Developer'></div>
             <div ng-if="c.user.sub" class="chat-badge sub" tooltip='Channel Subscriber'></div>
-            <strong style="color: {{c.user.color}}">{{c.user.name}}: </strong> <span ng-bind-html="c.msg"></span>
+            <strong style="color: {{c.user.color}}">{{c.user.name}}: </strong> <span ng-bind-html="c.msg | emotes"></span>
         </td>
       </tr>
     </tbody>

@@ -1,6 +1,6 @@
 var identity = {
   name: ['izlbot'],
-  channels: ['stylerdev'],
+  channels: ['stylerdev', 'massansc'],
   oauth: 'oauth:vjfg2k6x1iwbeo9kt4v8ah9j8v8oxk',
 };
 
