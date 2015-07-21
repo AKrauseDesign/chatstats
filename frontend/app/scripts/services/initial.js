@@ -9,9 +9,10 @@
  */
 angular.module('websiteApp')
   .factory('initial', function (socket) {
-    var globalemotes,totalMessages,users,commands,emotes,subEmotes,hashtags,kpm;
+    var globalemotes,totalMessages,totalHours,users,commands,emotes,subEmotes,hashtags,kpm;
       socket.on('initial', function(init) {
         globalemotes    = init.globalEmotes;
+        totalHours      = init.totalWatched;
         totalMessages   = init.totalMessages;
         kpm             = init.kpm;
         users           = init.users;
@@ -27,6 +28,9 @@ angular.module('websiteApp')
       },
       totalMessages: function() {
         return totalMessages;
+      },
+      totalHours: function(){
+        return totalHours;
       },
       topUsers: function() {
         return users;

@@ -19,9 +19,9 @@ angular.module('websiteApp')
 
       emoteList.forEach(function(e) {
         if (!text.match(linkRegex)) {
-          var reg = new RegExp(e.code, 'g');
+          var reg = new RegExp(e.code + "\\b", 'g');
           text = text.replace(reg, '<img class=\"emote\" src=\"//static-cdn.jtvnw.net/emoticons/v1/' + e.id + '/1.0\"></img>');
-      }
+        }
       });
       return text;
 

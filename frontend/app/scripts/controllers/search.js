@@ -15,7 +15,7 @@ angular.module('websiteApp')
     };
     $scope.doSearch = function() {
       $scope.foundUser = 1;
-      $http.get('http://localhost:3000/lookup/'+$scope.searchQuery).
+      $http.get('http://localhost:9000/lookup/'+$scope.searchQuery).
       success(function(data) {
         data = data.user;
         $scope.name = data.name;

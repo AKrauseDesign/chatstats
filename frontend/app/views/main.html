@@ -37,14 +37,19 @@
   </table>
 </div>
 <div class="row text-center">
-  <div class="col-md-6">
+  <div class="col-md-4">
     <div class="well well-sm">
-      <h1>Total Messages: {{totalMessages | number}}</h1>
+      <h1>Total Messages: {{totalMessages | number:0}}</h1>
     </div>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-4">
     <div class="well well-sm">
       <h1><img class="kappa" ng-src="images/kappa.png" alt="" /> Per Minute: {{kappaPerMinute | number}}</h1>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="well well-sm">
+      <h1>Total Hours Watched: {{totalHours / 60 | number}}</h1>
     </div>
   </div>
 </div>
@@ -59,8 +64,6 @@
                 {{$index+1}}
               </td>
               <td >
-                <div ng-if="u.name === 'stylerdev'" class="chat-badge mod" tooltip='Moderator'></div>
-                <div ng-if="u.name === 'stylerdev'" class="chat-badge sub" tooltip='Moderator'></div>
                 <strong>{{u.name}}</strong>
               </td>
               <td>

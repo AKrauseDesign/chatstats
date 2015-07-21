@@ -100,8 +100,8 @@ h3 {
   text-transform: uppercase;
 }
 .chat {
-  max-height: 250px;
-  min-height: 250px !important;
+  max-height: 220px;
+  min-height: 220px !important;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

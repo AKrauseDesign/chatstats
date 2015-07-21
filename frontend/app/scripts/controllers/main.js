@@ -20,6 +20,7 @@ angular.module('websiteApp')
       $scope.kappaPerMinute = initial.kpm();
       $scope.globalEmotes = initial.globalEmotes();
       $scope.totalMessages = initial.totalMessages();
+      $scope.totalHours = initial.totalHours();
       $scope.users = initial.topUsers();
       $scope.commands = initial.topCommands();
       $scope.emotes = initial.topEmotes();

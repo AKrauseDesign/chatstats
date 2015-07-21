@@ -9,35 +9,40 @@ module.exports = function(client, io, db) {
     totalMessages = sum;
   });
 
+  var bots = ['nightbot', 'moobot', 'xanbot','ohbot'];
   client.addListener('chat', function (channel, user, message) {
-    totalMessages++;
-    // Global Database Handler
-    handler(user, message);
-
-    var username;
-    if(user['display-name'] === null) {
-      username = user.username;
+    if(user.username === bots[0] || user.username === bots[1] || user.username === bots[2] || user.username === bots[3]) {
+      console.log('Bot Message');
     } else {
-      username = user['display-name'];
-    }
+      totalMessages++;
+      // Global Database Handler
+      handler(user, message);
 
-    var dev = false;
-    if(user.username === 'darkoe123' || user.username === 'stylerdev' || user.username === 'timohstudios') {
-      dev = true;
+      var username;
+      if(user['display-name'] === null) {
+        username = user.username;
+      } else {
+        username = user['display-name'];
+      }
+
+      var dev = false;
+      if(user.username === 'darkoe123' || user.username === 'stylerdev' || user.username === 'timohstudios') {
+        dev = true;
+      }
+      io.emit('stats', {
+        user: {
+          name: username,
+          color: user.color,
+          dev: dev,
+          mod: user['user-type'],
+          sub: user.subscriber,
+          turbo: user.turbo
+        },
+        msg: message,
+        total: totalMessages,
+        kpm: kpmodule.get(),
+        date: Date.now()
+      });
     }
-    io.emit('stats', {
-      user: {
-        name: username,
-        color: user.color,
-        dev: dev,
-        mod: user['user-type'],
-        sub: user.subscriber,
-        turbo: user.turbo
-      },
-      msg: message,
-      total: totalMessages,
-      kpm: kpmodule.get(),
-      date: Date.now()
-    });
   });
 };
