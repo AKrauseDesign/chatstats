@@ -17,7 +17,7 @@ module.exports = function(client, io, db) {
         client.subscribersoff('MaSsanSC');
       }, 10*1000);
     });
-    db.Users.findOne({ where: {name: username} }).then(function(subUser) {
+    db.Users.findOne({ where: {name: user} }).then(function(subUser) {
       if(!subUser) {
         client.say('MaSsanSC', "xanHY xanPE Welcome to the hood" + user['display-name'] +" You've written 0 Lines of text so far xanLove");
       } else {

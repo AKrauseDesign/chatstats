@@ -31,11 +31,10 @@ app.get('/', function(req, res){
     message: 'if i had some duct tape i could fix that',
   });
 });
-app.get('/lookup/:user', function(req, res){
+app.get('/lookup/:user', cors(), function(req, res){
   db.Users.findOne({ where: {name: req.params.user} }).then(function(user) {
-    res.status(200);
     res.json({
-      message: user
+      user: user
     });
   });
 });

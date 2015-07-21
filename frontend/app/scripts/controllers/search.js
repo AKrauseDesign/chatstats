@@ -15,15 +15,19 @@ angular.module('websiteApp')
     };
     $scope.doSearch = function() {
       $scope.foundUser = 1;
-      $http.get('http://localhost:9000/lookup/'+$scope.searchQuery).
+      $http.get('http://localhost:3000/lookup/'+$scope.searchQuery).
       success(function(data) {
         data = data.user;
-        $scope.name = data.name;
-        $scope.watchedTime = data.watchedTime;
-        $scope.count = data.count;
-        $scope.lastMsg = data.lastMsg;
-        $scope.foundUser = 2;
-      }).error(function() {
+        if(angular.isUndefined(data) || data === null ) {
+          $scope.foundUser = 3;
+        } else {
+          $scope.name = data.name;
+          $scope.watchedTime = data.watchedTime;
+          $scope.count = data.count;
+          $scope.lastMsg = data.lastMsg;
+          $scope.foundUser = 2;
+        }
+      }).error(function(data){
         $scope.foundUser = 3;
       });
     };

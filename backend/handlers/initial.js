@@ -5,9 +5,7 @@ module.exports = function(io, db) {
   db.Users.sum('count').then(function(sum) {
     totalMessages = sum;
   });
-  db.Users.sum('watchedTime').then(function(sum){
-    totalHours = sum;
-  });
+
 
   var allEmotes;
   var globalEmotes = [];
@@ -68,6 +66,9 @@ module.exports = function(io, db) {
     var emotes = [];
     var subEmotes = [];
     var hashtags = [];
+    db.Users.sum('watchedTime').then(function(sum){
+      totalHours = sum;
+    });
 		db.Subemotes.findAll({
 			limit: 40,
 			order: 'count DESC'

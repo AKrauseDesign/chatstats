@@ -10,7 +10,6 @@
 angular.module('websiteApp')
   .controller('MainCtrl', function ($rootScope, $scope, socket, $http, $log, initial) {
     $rootScope.initialized = true;
-    socket.emit ('newConnection');
     socket.on('420', function() {
       var horn = document.getElementsByTagName('audio')[0];
       horn.play(); //GO HAM
@@ -20,19 +19,25 @@ angular.module('websiteApp')
       $scope.kappaPerMinute = initial.kpm();
       $scope.globalEmotes = initial.globalEmotes();
       $scope.totalMessages = initial.totalMessages();
-      $scope.totalHours = initial.totalHours();
       $scope.users = initial.topUsers();
       $scope.commands = initial.topCommands();
       $scope.emotes = initial.topEmotes();
       $scope.subEmotes = initial.topSubEmotes();
       $scope.hashtags = initial.topHashtags();
+
+      $scope.watchedMinutes   = initial.totalHours();
+      $scope.watchedHours     = $scope.watchedMinutes / 60;
+      $scope.watchedDays      = $scope.watchedHours / 24;
+      $scope.watchedYears     = $scope.watchedDays / 365;
+      $scope.watchedCenturies = $scope.watchedYears / 100;
+
       $rootScope.initialized = true;
-      socket.removeListener('initial', function() {
-      });
+      socket.removeListener('initial', function(){});
       $log.debug('Connected to Socket Server');
       $log.debug('ヽ༼ຈل͜ຈ༽ﾉ Ready to receive data ヽ༼ຈل͜ຈ༽ﾉ ');
       $log.debug('( ͡° ͜ʖ ͡°)⊃━☆ﾟ Received Initial data.. (∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ');
     });
+
     socket.on('stats', function(data){
     if($rootScope.initialized === true) {
       // Real time Twitch Chat

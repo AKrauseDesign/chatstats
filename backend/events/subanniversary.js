@@ -7,8 +7,8 @@ module.exports = function(client, io, db) {
         client.subscribersoff('MaSsanSC');
       }, 10*1000);
     });
-    db.Users.findOne({ where: {name: username} }).then(function(subAUser) {
-      client.say('MaSsanSC', 'xanHY xanPE Welcome back to the hood ' + username + '! Subbed for '+ months + " months You've written " + subAUser.count + " lines of text so far and been in chat for " + minuteToHour(subAUser.watchedTime) + " hours xanLove");
+    db.Users.findOne({ where: {name: user} }).then(function(subAUser) {
+      client.say('MaSsanSC', 'xanHY xanPE Welcome back to the hood ' + user + '! Subbed for '+ months + " months You've written " + subAUser.count + " lines of text so far and been in chat for " + minuteToHour(subAUser.watchedTime) + " hours xanLove");
     });
   });
 };

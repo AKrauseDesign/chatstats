@@ -1,6 +1,15 @@
 <script type="text/ng-template" id="users.html">
   <span><strong>{{u.name}}: </strong><span ng-bind-html="u.lastMsg | emotes"></span> <br>{{u.lastMsgDate | date:'short'}}</span>
 </script>
+<script type="text/ng-template" id="totalhours.html">
+<ul class="list-unstyled">
+  <li><strong>Minutes:</strong> {{watchedMinutes | number:0}}</li>
+  <li><strong>Hours:</strong> {{watchedHours | number:0}}</li>
+  <li><strong>Days:</strong> {{watchedDays | number:0}}</li>
+  <li><strong>Years:</strong> {{watchedYears | number:1}}</li>
+  <li><strong>Centuries:</strong> {{watchedCenturies | number:3}}</li>
+</ul>
+</script>
 <script type="text/ng-template" id="kpm.html">
   <span><i class="fa fa-trophy"></i> KPM Record: XX</span>
 </script>
@@ -37,19 +46,19 @@
   </table>
 </div>
 <div class="row text-center">
-  <div class="col-md-4">
+  <div class="col-md-6">
     <div class="well well-sm">
-      <h1>Total Messages: {{totalMessages | number:0}}</h1>
+      <h2><i class="fa fa-envelope-o"></i> Total Messages: <strong>{{totalMessages | number:0}}</strong></h2>
     </div>
   </div>
-  <div class="col-md-4">
+  <!-- <div class="col-md-4">
     <div class="well well-sm">
-      <h1><img class="kappa" ng-src="images/kappa.png" alt="" /> Per Minute: {{kappaPerMinute | number}}</h1>
+      <h2><img class="kappa" ng-src="images/kappa.png" alt="" /> Per Minute: {{kappaPerMinute | number}}</h2>
     </div>
-  </div>
-  <div class="col-md-4">
-    <div class="well well-sm">
-      <h1>Total Hours Watched: {{totalHours / 60 | number}}</h1>
+  </div> -->
+  <div class="col-md-6">
+    <div class="well well-sm" tooltip-placement="top" tooltip-template="'totalhours.html'">
+      <h2><i class="fa fa-clock-o"></i> Total Hours Watched: <strong>{{watchedHours | number:0}}</strong></h2>
     </div>
   </div>
 </div>

@@ -220,3 +220,6 @@ td.p {
   background-image: url('../images/stickman.png');
   height: 100%;
 }
+.search-box {
+  margin-bottom: 10px;
+}
