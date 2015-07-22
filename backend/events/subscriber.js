@@ -11,17 +11,17 @@ module.exports = function(client, io, db) {
     });
   }, 60 * 1000);
 
-  client.addListener('subscriber', function (channel, user, message) {
-    client.subscribers('MaSsanSC').then(function() {
+  client.addListener('subscriber', function (channel, username) {
+    client.subscribers(channel).then(function() {
       setTimeout(function () {
-        client.subscribersoff('MaSsanSC');
+        client.subscribersoff(channel);
       }, 10*1000);
     });
-    db.Users.findOne({ where: {name: user} }).then(function(subUser) {
+    db.Users.findOne({ where: {name: username} }).then(function(sub) {
       if(!subUser) {
-        client.say('MaSsanSC', "xanHY xanPE Welcome to the hood" + user['display-name'] +" You've written 0 Lines of text so far xanLove");
+        client.say('MaSsanSC', "xanHY xanPE Welcome to the hood" + username +" You've written 0 Lines of text so far xanLove");
       } else {
-        client.say('MaSsanSC', 'xanHY xanPE Welcome to the hood ' + user['display-name'] + " You've written " + subUser.count + " lines of text so far and been in chat for " + minuteToHour(subUser.watchedTime) + " hours xanLove");
+        client.say('MaSsanSC', 'xanHY xanPE Welcome to the hood ' + username + " You've written " + sub.count + " lines of text so far and been in chat for " + minuteToHour(sub.watchedTime) + " hours xanLove");
       }
     });
 
@@ -29,7 +29,7 @@ module.exports = function(client, io, db) {
     if (currentCombo > 1) {
       io.emit(comboEvent, {
         combo: currentCombo,
-        lastSubscriber: user['display-name']
+        lastSubscriber: username
       });
     }
   });

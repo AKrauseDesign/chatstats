@@ -1,14 +1,14 @@
 var minuteToHour = require('../utils/minutetohour');
 
 module.exports = function(client, io, db) {
-  client.addListener('subanniversary', function (channel, user, message) {
-    client.subscribers('MaSsanSC').then(function() {
+  client.addListener('subanniversary', function (channel, username, months) {
+    client.subscribers(username).then(function() {
       setTimeout(function () {
-        client.subscribersoff('MaSsanSC');
+        client.subscribersoff(channel);
       }, 10*1000);
     });
-    db.Users.findOne({ where: {name: user} }).then(function(subAUser) {
-      client.say('MaSsanSC', 'xanHY xanPE Welcome back to the hood ' + user + '! Subbed for '+ months + " months You've written " + subAUser.count + " lines of text so far and been in chat for " + minuteToHour(subAUser.watchedTime) + " hours xanLove");
+    db.Users.findOne({ where: {name: username} }).then(function(sub) {
+      client.say(channel, 'xanHY xanPE Welcome back to the hood ' + username + '! Subbed for '+ months + " months You've written " + sub.count + " lines of text so far and been in chat for " + minuteToHour(sub.watchedTime) + " hours xanLove");
     });
   });
 };

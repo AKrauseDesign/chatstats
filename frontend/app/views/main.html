@@ -1,5 +1,13 @@
 <script type="text/ng-template" id="users.html">
   <span><strong>{{u.name}}: </strong><span ng-bind-html="u.lastMsg | emotes"></span> <br>{{u.lastMsgDate | date:'short'}}</span>
+  <p>
+    Watched {{u.watchedTime}} Hours
+  </p>
+</script>
+<script type="text/ng-template" id="totalusers.html">
+  <p>
+    Across {{totalUsers}} Users!
+  </p>
 </script>
 <script type="text/ng-template" id="totalhours.html">
 <ul class="list-unstyled">
@@ -9,9 +17,6 @@
   <li><strong>Years:</strong> {{watchedYears | number:1}}</li>
   <li><strong>Centuries:</strong> {{watchedCenturies | number:3}}</li>
 </ul>
-</script>
-<script type="text/ng-template" id="kpm.html">
-  <span><i class="fa fa-trophy"></i> KPM Record: XX</span>
 </script>
 <script type="text/ng-template" id="commands.html">
   <span><strong>{{c.lastUser}}: </strong><span ng-bind-html="c.lastMsg | emotes"></span> <br>{{c.lastMsgDate | date:'short'}}</span>
@@ -47,7 +52,7 @@
 </div>
 <div class="row text-center">
   <div class="col-md-6">
-    <div class="well well-sm">
+    <div class="well well-sm" tooltip-placement="top" tooltip-template="'totalusers.html'">
       <h2><i class="fa fa-envelope-o"></i> Total Messages: <strong>{{totalMessages | number:0}}</strong></h2>
     </div>
   </div>

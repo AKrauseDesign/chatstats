@@ -17,11 +17,10 @@ angular
     'ngTouch',
     'btford.socket-io',
     'ui.bootstrap',
-    'ui.router',
-    'highcharts-ng'
+    'ui.router'
   ])
 
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $stateProvider
 
       // Main States
@@ -42,5 +41,5 @@ angular
 
       // Everything Else
       $urlRouterProvider.otherwise('/');
-      // $locationProvider.html5Mode(false); // Get rid of #/
+      $locationProvider.html5Mode(true); // Get rid of #/
   });

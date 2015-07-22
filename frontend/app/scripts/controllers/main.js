@@ -9,7 +9,7 @@
  */
 angular.module('websiteApp')
   .controller('MainCtrl', function ($rootScope, $scope, socket, $http, $log, initial) {
-    $rootScope.initialized = true;
+    $rootScope.initialized = false;
     socket.on('420', function() {
       var horn = document.getElementsByTagName('audio')[0];
       horn.play(); //GO HAM
@@ -19,13 +19,15 @@ angular.module('websiteApp')
       $scope.kappaPerMinute = initial.kpm();
       $scope.globalEmotes = initial.globalEmotes();
       $scope.totalMessages = initial.totalMessages();
+      $scope.totalUsers = initial.totalUsers();
+      console.log(initial.totalUsers());
       $scope.users = initial.topUsers();
       $scope.commands = initial.topCommands();
       $scope.emotes = initial.topEmotes();
       $scope.subEmotes = initial.topSubEmotes();
       $scope.hashtags = initial.topHashtags();
 
-      $scope.watchedMinutes   = initial.totalHours();
+      $scope.watchedMinutes   = initial.totalWatched();
       $scope.watchedHours     = $scope.watchedMinutes / 60;
       $scope.watchedDays      = $scope.watchedHours / 24;
       $scope.watchedYears     = $scope.watchedDays / 365;
@@ -42,7 +44,6 @@ angular.module('websiteApp')
     if($rootScope.initialized === true) {
       // Real time Twitch Chat
       $scope.totalMessages = data.total;
-      $scope.kappaPerMinute = data.kpm;
       $scope.chat.unshift(data);
 
       // DON'T FUCK WITH IT - IT TWERKS

@@ -1,9 +1,12 @@
 var request         = require('request');
 var kpmodule        = require('../handlers/kpm');
 module.exports = function(io, db) {
-  var totalMessages,totalHours;
+  var totalMessages,totalUsers,totalHours;
   db.Users.sum('count').then(function(sum) {
     totalMessages = sum;
+  });
+  db.Users.count().then(function(sum) {
+    totalUsers = sum;
   });
 
 
@@ -136,13 +139,14 @@ module.exports = function(io, db) {
 					users.push({
 						name: user[i].name,
 						lastMsg: user[i].lastMsg,
+            watchedTime: user[i].watchedTime,
 						lastMsgDate: user[i].updatedAt,
 						count: user[i].count
 					});
 				}
 			}).then(function() {
 				socket.emit('initial', {
-					kpm: kpmodule.get(),
+          totalUsers: totalUsers,
 					totalMessages: totalMessages,
           totalWatched: totalHours,
 					users: users,
