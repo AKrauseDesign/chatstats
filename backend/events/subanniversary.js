@@ -2,7 +2,7 @@ var minuteToHour = require('../utils/minutetohour');
 
 module.exports = function(client, io, db) {
   client.addListener('subanniversary', function (channel, username, months) {
-    client.subscribers(username).then(function() {
+    client.subscribers(channel).then(function() {
       setTimeout(function () {
         client.subscribersoff(channel);
       }, 10*1000);

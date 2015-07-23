@@ -1,12 +1,12 @@
 <script type="text/ng-template" id="users.html">
   <span><strong>{{u.name}}: </strong><span ng-bind-html="u.lastMsg | emotes"></span> <br>{{u.lastMsgDate | date:'short'}}</span>
   <p>
-    Watched {{u.watchedTime}} Hours
+    Watched {{u.watchedTime/60 | number}} Hours
   </p>
 </script>
 <script type="text/ng-template" id="totalusers.html">
   <p>
-    Across {{totalUsers}} Users!
+    Across {{totalUsers | number}} Users!
   </p>
 </script>
 <script type="text/ng-template" id="totalhours.html">

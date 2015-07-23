@@ -20,7 +20,6 @@ angular.module('websiteApp')
       $scope.globalEmotes = initial.globalEmotes();
       $scope.totalMessages = initial.totalMessages();
       $scope.totalUsers = initial.totalUsers();
-      console.log(initial.totalUsers());
       $scope.users = initial.topUsers();
       $scope.commands = initial.topCommands();
       $scope.emotes = initial.topEmotes();
