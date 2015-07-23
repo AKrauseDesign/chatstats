@@ -1,6 +1,7 @@
 var handler   = require('../handlers/handler');
 var kpmodule       = require('../handlers/kpm');
 var initial   = require('../handlers/initial');
+var inArray = require('../utils/inArray');
 
 module.exports = function(client, io, db) {
   var totalMessages;
@@ -9,9 +10,10 @@ module.exports = function(client, io, db) {
     totalMessages = sum;
   });
 
+  var devs = ['darkoe123', 'stylerdev', 'timohstudios'];
   var bots = ['nightbot', 'moobot', 'xanbot','ohbot'];
   client.addListener('chat', function (channel, user, message) {
-    if(user.username === bots[0] || user.username === bots[1] || user.username === bots[2] || user.username === bots[3]) {
+    if(inArray(user.username, bots)) {
       console.log('Bot Message');
     } else {
       totalMessages++;
@@ -26,9 +28,10 @@ module.exports = function(client, io, db) {
       }
 
       var dev = false;
-      if(user.username === 'darkoe123' || user.username === 'stylerdev' || user.username === 'timohstudios') {
+      if(inArray(user.username, devs)) {
         dev = true;
       }
+
       io.emit('stats', {
         user: {
           name: username,
