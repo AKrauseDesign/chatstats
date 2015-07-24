@@ -51,6 +51,16 @@ client.addListener('connectedfail', function (address, port) {
   logger.error('Unable to connect to Twitch IRC on ' + address + ':' + port);
 });
 
+client.addListener('crash', function(adress, port) {
+  logger.error('Crash happend on ' + adress + ':' + port);
+});
+
+client.addListener('disconnected', function (reason) {
+  logger.error('Disconnect: ' + reason);
+});
+
+
+
 var watchedTime = require('./handlers/watchedTime.js')(client, db);
 
 db.sequelize.sync().then(function () {
