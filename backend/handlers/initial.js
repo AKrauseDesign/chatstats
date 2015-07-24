@@ -1,5 +1,7 @@
-var request         = require('request');
-var kpmodule        = require('../handlers/kpm');
+var request  = require('request');
+var kpmodule = require('./kpm');
+var data     = require('./startup');
+
 module.exports = function(io, db) {
   var totalMessages,totalUsers,totalHours;
   db.Users.sum('count').then(function(sum) {
@@ -9,59 +11,7 @@ module.exports = function(io, db) {
     totalUsers = sum;
   });
 
-
-  var allEmotes;
-  var globalEmotes = [];
-  var sEmotes = [
-    {
-      id: 6115,
-      code: 'masDoge'
-    },
-    {
-      id: 10367,
-      code: 'masBM'
-    },
-    {
-      id: 12760,
-      code: 'masGasm'
-    },
-    {
-      id: 35600,
-      code: 'masKappa'
-    },
-    {
-      id: 35601,
-      code: 'masW'
-    },
-    {
-      id: 54064,
-      code: 'masThump'
-    },
-    {
-      id: 54065,
-      code: 'masHey'
-    },
-    {
-      id: 54395,
-      code: 'masGame'
-    },
-    {
-      id: 54371,
-      code: 'masFail'
-    },
-    {
-      id: 54370,
-      code: 'masC'
-    }
-  ];
-  request('http://api.twitch.tv/kraken/chat/emoticon_images?emotesets=0', function(err, res, body) {
-  // request('http://api.twitch.tv/kraken/chat/emoticon_images', function(err, res, body) {
-    if (!err && res.statusCode === 200) {
-      globalEmotes = JSON.parse(body);
-      globalEmotes = globalEmotes.emoticon_sets[0];
-      allEmotes = sEmotes.concat(globalEmotes);
-    }
-  });
+  var allEmotes = data.globalEmotes.push(data.subEmotes);
 
 	io.on('connection', function(socket) {
     var users = [];
@@ -152,9 +102,9 @@ module.exports = function(io, db) {
 					users: users,
 					commands: commands,
 					emotes: emotes,
-					subemotes: subEmotes,
+					subEmotes: subEmotes,
 					hashtags: hashtags,
-          globalEmotes: allEmotes
+          allEmotes: allEmotes
 				});
 			});
 		});

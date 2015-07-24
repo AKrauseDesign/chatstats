@@ -23,4 +23,4 @@ request('https://api.twitch.tv/kraken/chat/massansc/emoticons', function(err, re
 module.exports = {
   globalEmotes: globalEmotes,
   subEmotes: subEmotes
-}
+};

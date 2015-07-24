@@ -15,12 +15,12 @@ angular.module('websiteApp')
       var linkRegex = /(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/gi;
       text = $sanitize(text);
 
-      var emoteList = initial.globalEmotes();
+      var emoteList = initial.allEmotes();
 
       emoteList.forEach(function(e) {
         if (!text.match(linkRegex)) {
-          var reg = new RegExp(e.code + "\\b", 'g');
-          text = text.replace(reg, '<img class=\"emote\" src=\"//static-cdn.jtvnw.net/emoticons/v1/' + e.id + '/1.0\"></img>');
+          var reg = new RegExp(e.regex + "\\b", 'g');
+          text = text.replace(reg, '<img class=\"emote\" src=\"' + e.url + '>');
         }
       });
       return text;

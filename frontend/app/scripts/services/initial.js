@@ -9,23 +9,23 @@
  */
 angular.module('websiteApp')
   .factory('initial', function (socket) {
-    var globalemotes,totalMessages,totalUsers,totalWatched,users,commands,emotes,subEmotes,hashtags,kpm;
-      socket.on('initial', function(init) {
-        globalemotes    = init.globalEmotes;
-        totalWatched    = init.totalWatched;
-        totalUsers      = init.totalUsers;
-        totalMessages   = init.totalMessages;
-        kpm             = init.kpm;
-        users           = init.users;
-        commands        = init.commands;
-        emotes          = init.emotes;
-        subEmotes       = init.subemotes;
-        hashtags        = init.hashtags;
-      });
+    var allEmotes, totalMessages, totalUsers, totalWatched, users, commands, emotes, subEmotes, hashtags, kpm;
+    socket.on('initial', function(init) {
+      allEmotes       = init.allEmotes;
+      totalWatched    = init.totalWatched;
+      totalUsers      = init.totalUsers;
+      totalMessages   = init.totalMessages;
+      kpm             = init.kpm;
+      users           = init.users;
+      commands        = init.commands;
+      emotes          = init.emotes;
+      subEmotes       = init.subEmotes;
+      hashtags        = init.hashtags;
+    });
     // Public API here
     return {
       globalEmotes: function () {
-        return globalemotes;
+        return allEmotes;
       },
       totalMessages: function() {
         return totalMessages;
