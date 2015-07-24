@@ -3,7 +3,7 @@ var kpmodule = require('./kpm');
 var data     = require('./startup');
 
 module.exports = function(io, db) {
-  var totalMessages,totalUsers,totalHours;
+  var totalMessages, totalUsers, totalHours, allEmotes;
   db.Users.sum('count').then(function(sum) {
     totalMessages = sum;
   });
@@ -11,9 +11,14 @@ module.exports = function(io, db) {
     totalUsers = sum;
   });
 
-  var allEmotes = data.globalEmotes.push(data.subEmotes);
-
 	io.on('connection', function(socket) {
+
+    console.log('Connection');
+
+    if (allEmotes === undefined) {
+      allEmotes = data.globalEmotes;
+    }
+
     var users = [];
     var commands = [];
     var emotes = [];

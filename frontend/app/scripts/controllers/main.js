@@ -17,7 +17,7 @@ angular.module('websiteApp')
     $scope.chat = [];
     socket.on('initial', function () {
       $scope.kappaPerMinute = initial.kpm();
-      $scope.globalEmotes = initial.globalEmotes();
+      $scope.globalEmotes = initial.allEmotes();
       $scope.totalMessages = initial.totalMessages();
       $scope.totalUsers = initial.totalUsers();
       $scope.users = initial.topUsers();
@@ -68,7 +68,7 @@ angular.module('websiteApp')
       // Global Emotes Filter
       for (var emote in $scope.globalEmotes) {
         for (var i = 0; i < words.length; i++) {
-          if (words[i] === $scope.globalEmotes[emote].code) {
+          if (words[i] === $scope.globalEmotes[emote].regex) {
             var Emote = compare($scope.emotes, 'emote', words[i]);
             if (Emote) {
               Emote.count = Emote.count += 1;

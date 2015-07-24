@@ -24,7 +24,7 @@ angular.module('websiteApp')
     });
     // Public API here
     return {
-      globalEmotes: function () {
+      allEmotes: function () {
         return allEmotes;
       },
       totalMessages: function() {

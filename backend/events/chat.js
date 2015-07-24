@@ -1,10 +1,11 @@
 var handler   = require('../handlers/handler');
-var kpmodule       = require('../handlers/kpm');
+var kpmodule  = require('../handlers/kpm');
 var initial   = require('../handlers/initial');
-var inArray = require('../utils/inArray');
+var inArray   = require('../utils/inArray');
 
 module.exports = function(client, io, db) {
   var totalMessages;
+  console.log('client: ' + client);
 
   db.Users.sum('count').then(function(sum) {
     totalMessages = sum;
@@ -16,6 +17,7 @@ module.exports = function(client, io, db) {
     if(inArray(user.username, bots)) {
       console.log('Bot Message');
     } else {
+      console.log('Chat!');
       totalMessages++;
       // Global Database Handler
       handler(user, message);

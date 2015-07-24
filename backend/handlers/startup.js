@@ -1,10 +1,10 @@
 var request = require('request');
-
+var logger = require('../utils/logger');
 var globalEmotes = [];
 var subEmotes = [];
 
 request('https://api.twitch.tv/kraken/chat/massansc/emoticons', function(err, res, body) {
-  console.warn('Fired request');
+  logger.info('Fired emote request');
   if(!err && res.statusCode === 200) {
     emotes = JSON.parse(body);
     emotes = emotes.emoticons;
@@ -16,7 +16,7 @@ request('https://api.twitch.tv/kraken/chat/massansc/emoticons', function(err, re
       }
     }
   } else {
-    console.error('Couldn\'t get emotes.');
+    logger.error('Couldn\'t get emotes.');
   }
 });
 
