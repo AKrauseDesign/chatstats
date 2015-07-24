@@ -15,7 +15,7 @@ var irc = require("tmi.js"),
     http = require('http').Server(app),
     io = require('socket.io')(http),
     request = require('request'),
-    // startup = require('./handlers/startup.js'),
+    logger = require('./utils/logger'),
     config = require('./config'),
     fs = require('fs'),
     initial = require('./handlers/initial.js')(io, db),
@@ -31,6 +31,7 @@ app.get('/', function(req, res){
     message: 'if i had some duct tape i could fix that',
   });
 });
+
 app.get('/lookup/:user', cors(), function(req, res){
   db.Users.findOne({ where: {name: req.params.user} }).then(function(user) {
     res.json({
@@ -38,20 +39,32 @@ app.get('/lookup/:user', cors(), function(req, res){
     });
   });
 });
+
 var client = new irc.client(config.tmi);
 client.connect();
 
+client.addListener('connected', function (address, port) {
+  logger.info('Connected to Twitch IRC on ' + address + ':' + port);
+});
+
+client.addListener('connectedfail', function (address, port) {
+  logger.error('Unable to connect to Twitch IRC on ' + address + ':' + port);
+});
+
 var watchedTime = require('./handlers/watchedTime.js')(client, db);
+
 db.sequelize.sync().then(function () {
   http.listen(config.port, function(){
-    console.log('Connection Successful: listening on *:' + config.port);
+    logger.info('Connection Successful: listening on *:' + config.port);
   });
 });
+
 if (fs.existsSync('./events')) {
   fs.readdirSync('./events').forEach(function(file) {
     require('./events/' + file)(client, io, db);
   });
 }
+
 if (fs.existsSync('./commands')) {
   fs.readdirSync('./commands').forEach(function(file) {
     require('./commands/' + file)(client, db, request);

@@ -1,8 +1,10 @@
+var logger = require('../utils/logger');
+
 module.exports = function(client, db) {
   var users = {};
 
   client.addListener('join', function (channel, username) {
-    console.log('JOINED: '+username);
+    logger.info('JOINED: '+username);
     users[username] = Date.now();
   });
 
@@ -18,7 +20,7 @@ module.exports = function(client, db) {
         { name: username },
     }).spread(function(user) {
       user.increment('watchedTime', {by: time});
-      console.log('Watchedtime: '+username+' By: '+time+' min');
+      logger.info('Watchedtime: '+username+' By: '+time+' min');
     });
   });
 };

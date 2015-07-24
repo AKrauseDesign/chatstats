@@ -4,7 +4,7 @@ var identity = {
   oauth: 'oauth:vjfg2k6x1iwbeo9kt4v8ah9j8v8oxk',
 };
 
-var ignoredBots = ['nightbot','moobot','ohbot','izlbot']
+var ignoredBots = ['nightbot','moobot','ohbot','izlbot'];
 
 var tmi = {
   options: {
