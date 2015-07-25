@@ -8,7 +8,7 @@
  * Controller of the websiteApp
  */
 angular.module('websiteApp')
-  .controller('SearchCtrl', function ($scope, socket, $http) {
+  .controller('SearchCtrl', function ($scope, socket, $http, $log) {
     $scope.foundUser = 0;
     $scope.clearUser = function() {
       $scope.foundUser = 0;
@@ -30,13 +30,22 @@ angular.module('websiteApp')
             }
           });
           $scope.name = data.name;
+
+          // Watched time
           $scope.watchedTime = data.watchedTime;
+          $scope.watchedMinutesSearch   = $scope.watchedTime;
+          $scope.watchedHoursSearch     = $scope.watchedMinutesSearch / 60;
+          $scope.watchedDaysSearch      = $scope.watchedHoursSearch / 24;
+          $scope.watchedYearsSearch     = $scope.watchedDaysSearch / 365;
+          $scope.watchedCenturiesSearch = $scope.watchedYearsSearch / 100;
+
           $scope.count = data.count;
           $scope.lastMsg = data.lastMsg;
           $scope.lastMsgDate = data.updatedAt;
           $scope.foundUser = 2;
         }
       }).error(function(data){
+        $log.error(data);
         $scope.foundUser = 3;
       });
     };
