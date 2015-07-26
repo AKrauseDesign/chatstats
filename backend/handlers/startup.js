@@ -1,29 +1,57 @@
+var q = require('q');
 var request = require('request');
 var logger = require('../utils/logger');
 var config = require('../config');
-var globalEmotes = [];
-var subEmotes = [];
 
-request('https://api.twitch.tv/kraken/chat/' + config.identity.channels[0] + '/emoticons', function(err, res, body) {
-  logger.info('Fired emote request');
-  if(!err && res.statusCode === 200) {
-    emotes = JSON.parse(body);
-    emotes = emotes.emoticons;
-    for (var emote in emotes) {
-      if(emotes[emote] !== null) {
-        if (emotes[emote].subscriber_only === true) {
-          subEmotes.push(emotes[emote]);
-        } else {
-          globalEmotes.push(emotes[emote]);
-        }
-      }
+var emotesGlobal = {};
+var emotesSubscriber = {};
+var emotesBetterttv = {};
+
+var emoteURL = {
+  global: 'https://twitchemotes.com/api_cache/v2/global.json',
+  subscriber: 'https://twitchemotes.com/api_cache/v2/subscriber.json',
+  betterttv: 'https://cdn.betterttv.net/emotes/emotes.json'
+};
+
+function download(url, callback) {
+  var deferred = q.defer();
+  request(url, function(err, res, body) {
+    if (!err && res.statusCode === 200) {
+      deferred.resolve(res);
+    } else {
+      deferred.reject(err);
     }
-  } else {
-    logger.error('Couldn\'t get emotes.');
+  });
+  return deferred.promise;
+}
+
+function parseGlobal(obj) {
+  var newObj = {};
+  for (var emote in emotes) {
+    newObj[emote] = obj.emotes[emote].image_id;
+  }
+  return newObj;
+}
+
+q.all([
+  download(emoteURL.global),
+  download(emoteURL.subscriber),
+  download(emoteURL.betterttv),
+]).spread(function (resGlobal, resSubscriber, resBetterttv) {
+  emotesGlobal(parseGlobal.body)
+  if(resGlobal){
+    console.log('resGlobal');
+  }
+  if(resSubscriber){
+    console.log('resSubscriber');
+  }
+  if(resBetterttv){
+    console.log('resBetterttv');
   }
 });
 
 module.exports = {
-  globalEmotes: globalEmotes,
-  subEmotes: subEmotes
+  emotesGlobal: emotesGlobal,
+  emotesSubscriber: emotesSubscriber,
+  emotesBetterttv: emotesBetterttv
 };
