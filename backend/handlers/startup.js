@@ -13,20 +13,7 @@ var emoteURL = {
   betterttv: 'https://cdn.betterttv.net/emotes/emotes.json'
 };
 
-function download(url, callback) {
-  var deferred = q.defer();
-  request(url, function(err, res, body) {
-    if (!err && res.statusCode === 200) {
-      deferred.resolve(res);
-    } else {
-      deferred.reject(err);
-    }
-  });
-  return deferred.promise;
-}
-
 function parseGlobal(obj) {
-  obj = obj.body;
   obj = JSON.parse(obj);
   var newObj = {};
   for (var emote in obj.emotes) {
@@ -34,8 +21,6 @@ function parseGlobal(obj) {
   }
   return newObj;
 }
-
-
 function parseSubscriber(obj) {
   var newObj = {};
   for (var emote in obj.emotes) {
@@ -43,30 +28,46 @@ function parseSubscriber(obj) {
   }
   return newObj;
 }
-
-q.all([
-  download(emoteURL.global),
-  download(emoteURL.subscriber),
-  download(emoteURL.betterttv),
-]).spread(function (resGlobal, resSubscriber, resBetterttv) {
-  if(resGlobal){
-    logger.info('Response for global emotes');
-    emotesGlobal = parseGlobal(resGlobal);
+function parseBttv(obj) {
+  var newObj = {};
+  for (var emote in obj.emotes) {
+    newObj[emote] = obj.emotes[emote].image_id;
   }
-  if(resSubscriber){
-    logger.info('Response for subscriber emotes');
-
-  }
-  if(resBetterttv){
-    logger.info('Response for Betterttv emotes');
-  }
-}).then(function(){
-  logger.info('Emotes are done');
-  console.log(emotesGlobal);
-});
+  return newObj;
+}
 
 module.exports = {
-  globalEmotes: emotesGlobal,
-  subEmotes: emotesSubscriber,
-  bttvEmotes: emotesBetterttv
+  getGlobalEmotes: function(){
+    var defer = q.defer();
+    request(emoteURL.global, function(err, res, body) {
+      if (!err && res.statusCode === 200) {
+        defer.resolve(parseGlobal(body));
+      } else {
+        defer.reject(err);
+      }
+    });
+    return defer.promise;
+  },
+  getSubscriberEmotes: function(){
+    var defer = q.defer();
+    request(emoteURL.global, function(err, res, body) {
+      if (!err && res.statusCode === 200) {
+        defer.resolve(parseSubscriber(body));
+      } else {
+        defer.reject(err);
+      }
+    });
+    return defer.promise;
+  },
+  getBttvEmotes: function(){
+    var defer = q.defer();
+    request(emoteURL.global, function(err, res, body) {
+      if (!err && res.statusCode === 200) {
+        defer.resolve(parseBttv(body));
+      } else {
+        defer.reject(err);
+      }
+    });
+    return defer.promise;
+  }
 };

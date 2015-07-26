@@ -9,6 +9,9 @@ module.exports = function(io, db) {
     if (allEmotes === undefined) {
       allEmotes = data.globalEmotes;
     }
+    data.getGlobalEmotes().then(function(data){
+      console.log(data);
+    });
 
     var users = [];
     var commands = [];
