@@ -40,14 +40,14 @@ module.exports = function(userObj, message) {
   var words = message.split(' ');
   var emoteObject = {};
 
-  for (var current = 0; current < globalEmotes.length; current++) {
-    var name = globalEmotes[current].regex;
+  for (var emote in globalEmotes) {
+    console.log(name);
     for (var i = 0; i < words.length; i++) {
       if (words[i] === name) {
-        if(emoteObject.hasOwnProperty(name)) {
-          emoteObject[name]++;
+        if(emotes.hasOwnProperty(emote)) {
+          emoteObject[emote]++;
         } else {
-          emoteObject[name] = 1;
+          emoteObject[emote] = 1;
         }
       }
     }
@@ -83,7 +83,7 @@ module.exports = function(userObj, message) {
   var subEmoteObject = {};
 
   for (var subcurrent = 0; subcurrent < subEmotes.length; subcurrent++) {
-    var subname = subEmotes[subcurrent].code;
+    var subname = subEmotes[subcurrent];
     for (var e = 0; e < words.length; e++) {
       if (words[e] === subname) {
         if(subEmoteObject.hasOwnProperty(subname)) {
