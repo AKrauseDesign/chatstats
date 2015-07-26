@@ -23,7 +23,7 @@ var tmi = {
 var database = {
   host: 'localhost',
   user: 'root',
-  pass: 'gaffet',
+  pass: '',
   database: 'chatstats'
 };
 

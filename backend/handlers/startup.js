@@ -26,8 +26,19 @@ function download(url, callback) {
 }
 
 function parseGlobal(obj) {
+  obj = obj.body;
+  obj = JSON.parse(obj);
   var newObj = {};
-  for (var emote in emotes) {
+  for (var emote in obj.emotes) {
+    newObj[emote] = obj.emotes[emote].image_id;
+  }
+  return newObj;
+}
+
+
+function parseSubscriber(obj) {
+  var newObj = {};
+  for (var emote in obj.emotes) {
     newObj[emote] = obj.emotes[emote].image_id;
   }
   return newObj;
@@ -38,20 +49,24 @@ q.all([
   download(emoteURL.subscriber),
   download(emoteURL.betterttv),
 ]).spread(function (resGlobal, resSubscriber, resBetterttv) {
-  emotesGlobal(parseGlobal.body)
   if(resGlobal){
-    console.log('resGlobal');
+    logger.info('Response for global emotes');
+    emotesGlobal = parseGlobal(resGlobal);
   }
   if(resSubscriber){
-    console.log('resSubscriber');
+    logger.info('Response for subscriber emotes');
+
   }
   if(resBetterttv){
-    console.log('resBetterttv');
+    logger.info('Response for Betterttv emotes');
   }
+}).then(function(){
+  logger.info('Emotes are done');
+  console.log(emotesGlobal);
 });
 
 module.exports = {
-  emotesGlobal: emotesGlobal,
-  emotesSubscriber: emotesSubscriber,
-  emotesBetterttv: emotesBetterttv
+  globalEmotes: emotesGlobal,
+  subEmotes: emotesSubscriber,
+  bttvEmotes: emotesBetterttv
 };
