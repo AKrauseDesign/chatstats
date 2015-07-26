@@ -8,13 +8,37 @@
  * Controller of the websiteApp
  */
 angular.module('websiteApp')
-  .controller('MainCtrl', function ($rootScope, $scope, socket, $http, $log, initial) {
+  .controller('MainCtrl', function ($rootScope, $interval, $scope, socket, $http, $log, initial) {
+    function getTwitchStatus(twitch){
+      $http.jsonp("https://api.twitch.tv/kraken/streams/"+twitch+"?callback=JSON_CALLBACK").
+      success(function(data) {
+        if(data.stream) {
+          $scope.streamViewers = data.stream.viewers;
+          $scope.streamStatus = true;
+        } else {
+          $scope.streamStatus = false;
+        }
+      });
+    }
+    // Initial Status
+    getTwitchStatus('massansc');
+
+    // Refresh every 60 seconds
+    $interval(function() {
+      getTwitchStatus('massansc');
+    }, 1000 * 60);
+
     $rootScope.initialized = false;
     socket.on('420', function() {
       var horn = document.getElementsByTagName('audio')[0];
       horn.play(); //GO HAM
     });
     $scope.chat = [];
+
+    if($scope.chat.length <= 0){
+      $scope.noChat = true;
+    }
+
     socket.on('initial', function () {
       $scope.kappaPerMinute = initial.kpm();
       $scope.globalEmotes = initial.allEmotes();

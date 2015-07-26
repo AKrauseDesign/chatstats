@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.min.css">
     <base href="/">
   </head>
-  <body ng-app="websiteApp">
+  <body ng-app="websiteApp" ng-controller="MainCtrl">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -32,31 +32,35 @@
     <nav class="navbar navbar-default" role="navigation">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+          <button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">stats.massan.org</a>
+            <a class="navbar-brand" href="#">stats.massan.org</a>
         </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="navbar">
+        <div class="collapse navbar-collapse" collapse="navCollapsed">
           <ul class="nav navbar-nav">
             <li ui-sref-active="active"><a ui-sref="home"><i class="fa fa-fw fa-rocket"></i>Stats</a></li>
-            <!-- <li ui-sref-active="active"><a ui-sref="halloffame"><i class="fa fa-fw fa-trophy"></i>Hall of Fame</a></li> -->
+            <li ui-sref-active="active"><a ui-sref="halloffame"><i class="fa fa-fw fa-trophy"></i>Hall of Fame</a></li>
             <li ui-sref-active="active"><a ui-sref="search"><i class="fa fa-fw fa-search"></i>Search</a></li>
           </ul>
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
+          <ul class="nav navbar-nav navbar-right">
+            <li><a target="_blank" href="http://twitch.tv/massansc"><i class="fa fa-twitch"></i> Massan is:
+              <span ng-show="streamStatus === true"><span  class="label label-success" ng-class="">Online</span> with {{streamViewers |number}} viewers!</span>
+              <span ng-show="streamStatus === false"><span class="label label-danger" ng-class="">Offline</span></span>
+            </a></li>
+          </ul>
+        </div>
+      </div>
     </nav>
     <div class="container">
     <div class="text-center">
       <h1 class="main-header">Massan Chat Statistics</h1>
       <h4>Real Time statistics from the hood - since June 22th, 2015</h3>
     </div>
-      <div ui-view ng-controller="MainCtrl"></div>
+      <div ui-view></div>
     </div>
 
     <div class="footer">
