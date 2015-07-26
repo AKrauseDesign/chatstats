@@ -1,3 +1,12 @@
+<script type="text/ng-template" id="searchhours.html">
+<ul class="list-unstyled">
+  <li><strong>Minutes:</strong> {{watchedMinutesSearch | number:0}}</li>
+  <li><strong>Hours:</strong> {{watchedHoursSearch | number:0}}</li>
+  <li><strong>Days:</strong> {{watchedDaysSearch | number:0}}</li>
+  <li><strong>Years:</strong> {{watchedYearsSearch | number:2}}</li>
+  <li><strong>Centuries:</strong> {{watchedCenturiesSearch | number:3}}</li>
+</ul>
+</script>
 <form>
   <div class="input-group search-box">
     <div class="input-group-addon"><i class="fa fa-search"></i></div>
@@ -9,39 +18,35 @@
 </form>
 <div class="panel panel-default">
   <div class="panel-body">
-    <div class="row">
-      <div class="text-center" data-ng-if="foundUser == 0">
-          <h1><i class="fa fa-2x fa-user-secret"></i></h1>
-          <h3>Enter a username to look them up!</h3>
-      </div>
-      <div class="text-center" data-ng-if="foundUser == 1">
-          <h1><i class="fa fa fa-refresh fa-spin"></i></h1>
-          <h3>Loading info for user {{searchQuery}}...</h3>
-      </div>
-      <div data-ng-if="foundUser == 2">
-        <div class="text-center">
-          <img ng-src="{{avatar}}" class="img-thumbnail img-circle"/>
-          <h1>{{name}}</h1>
-          <div class="well well-sm">
-            <div class="col-md-4">
-              <i class="fa fa-3x fa-envelope-o"></i>
-              <h3>Total Messages: {{count}} </h3>
-            </div>
-            <div class="col-md-4">
-              <p>" <span ng-bind-html="lastMsg | emotes"></span> "</p>
-              <h3>Last Message {{lastMsgDate | date:'short'}}</h3>
-            </div>
-            <div class="col-md-4">
-              <i class="fa fa-3x fa-clock-o"></i>
-              <h3>Hours Watched: {{watchedTime / 60  | number:0}}</h3>
-            </div>
+    <div class="text-center" data-ng-if="foundUser == 0">
+        <h1><i class="fa fa-2x fa-user-secret"></i></h1>
+        <h3>Enter a username to look them up!</h3>
+    </div>
+    <div class="text-center" data-ng-if="foundUser == 1">
+        <h1><i class="fa fa fa-refresh fa-spin"></i></h1>
+        <h3>Loading info for user {{searchQuery}}...</h3>
+    </div>
+    <div data-ng-if="foundUser == 2">
+      <div class="text-center">
+        <img ng-src="{{avatar}}" class="img-thumbnail img-circle"/>
+        <h1>{{name}}</h1>
+          <div class="col-md-4">
+            <i class="fa fa-3x fa-envelope-o"></i>
+            <h3>Total Messages: <br/> {{count}} </h3>
           </div>
-        </div>
+          <div class="col-md-4">
+            <p>" <span ng-bind-html="lastMsg | emotes"></span> "</p>
+            <h3>Last Message <br/> {{lastMsgDate | date:'short'}}</h3>
+          </div>
+          <div class="col-md-4" tooltip-placement="top" tooltip-template="'searchhours.html'">
+            <i class="fa fa-3x fa-clock-o"></i>
+            <h3>Hours Watched:<br/> {{watchedTime / 60  | number:0}}</h3>
+          </div>
       </div>
-      <div class="text-center" data-ng-if="foundUser == 3">
-          <h1><i class="fa fa-user-times"></i></h1>
-          <h3>The user {{lookupuser}} was not found in the database!</h3>
-      </div>
+    </div>
+    <div class="text-center" data-ng-if="foundUser == 3">
+        <h1><i class="fa fa-user-times"></i></h1>
+        <h3>The user {{lookupuser}} was not found in the database!</h3>
     </div>
   </div>
 </div>

@@ -17,13 +17,13 @@ angular.module('websiteApp')
 
       var emoteList = initial.allEmotes();
 
-      emoteList.forEach(function(e) {
+      for(var i = 0; i < emoteList.length; i++) {
+        var e = emoteList[i];
         if (!text.match(linkRegex)) {
           var reg = new RegExp(e.regex + "\\b", 'g');
-          text = text.replace(reg, '<img class=\"emote\" src=\"' + e.url + '>');
+          text = text.replace(reg, '<img class=\"emote\" src=\"' + e.url + '\">');
         }
-      });
+      }
       return text;
-
     };
   });

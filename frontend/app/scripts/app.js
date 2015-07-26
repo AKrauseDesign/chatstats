@@ -41,5 +41,5 @@ angular
 
       // Everything Else
       $urlRouterProvider.otherwise('/');
-      $locationProvider.html5Mode(true); // Get rid of #/
+      $locationProvider.html5Mode(false); // Get rid of #/
   });

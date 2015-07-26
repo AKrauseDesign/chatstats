@@ -11,7 +11,7 @@ var globalEmotes = data.globalEmotes;
 var subEmotes = data.subEmotes;
 
 module.exports = function(userObj, message) {
-  var user = userObj['display-name'];
+  var user = userObj.username;
 
   // Hashtag Handler
   var regExHash = /(#)([a-zA-Z0-9_]+)/g, execHash;
@@ -31,34 +31,9 @@ module.exports = function(userObj, message) {
     }
   }
 
-
-  // Emotes
-
-  var emoteDB = function(foundEmote, amount) {
-    db.Emotes.findOrCreate(
-      {where:
-        { emote: foundEmote },
-    }).spread(function(emoteCount) {
-      emoteCount.increment('count', {by: amount});
-      db.Emotes
-      .update({
-        lastMsg: message,
-        lastUser: user
-      }, {
-        where: {
-          emote: foundEmote
-        }
-      }
-      );
-    });
-  };
-
   var callEmoteDB = function(emoteObject) {
     for (var emote in emoteObject) {
       emoteHandler(emote, emoteObject[emote], user, message);
-      if(emote === 'Kappa') {
-        kpmodule.set(emoteObject[emote]);
-      }
     }
   };
 
