@@ -7,6 +7,38 @@
  * # MainCtrl
  * Controller of the websiteApp
  */
+
+
+// TODO: Finish these
+// ---------------------------------------
+function removeClassTag(element, class, multiple) {
+if(multiple === true) {
+
+}else {
+
+}
+}
+
+function removeClassId(element, class, multiple) {
+if(multiple === true) {
+  var target = document.getElementsById(element);
+  for(var i = 0; element.length; i++) {
+
+  }
+  }else {
+
+  }
+}
+
+function removeClass(element, class, multiple) {
+if(multiple === true) {
+
+}else {
+
+}
+}
+// ---------------------------------------
+
 angular.module('websiteApp')
   .controller('MainCtrl', function ($rootScope, $interval, $scope, socket, $http, $log, initial) {
     function getTwitchStatus(twitch){
@@ -38,6 +70,66 @@ angular.module('websiteApp')
     if($scope.chat.length <= 0){
       $scope.noChat = true;
     }
+
+
+
+
+
+    $scope.isDay = true;
+    $scope.isNight = false;
+    $scope.changeScheme = function() {
+      var body     = document.getElementsByTagName('body');
+      var nav      = document.getElementByClassName('nav');
+      var wellsm   = document.querySelectorAll('.col-md-4 > .well-sm');
+      var tableTr  = document.querySelectorAll('.table-striped > tr');
+      var navA     = document.querySelector('.navbar-default .navbar-nav > .active > a');
+      var navBrand = document.querySelector('.navbar-default .navbar-brand');
+      var navLiA   = document.querySelectorAll('.navbar-default .navbar-nav > li > a');
+
+      if($scope.isLight === true) {
+        body.setAttribute('class', body.getAttribute('class') + ' body-night');
+        nav.setAttribute('class', nav.getAttribute('class') + ' navbar-night');
+        navA.setAttribute('class', navA.getAttribute('class') + ' active-night');
+        navBrand.setAttribute('class', navBrand.getAttribute('class') + ' active-night lings-night');
+
+        for(var i = 0; i < wellsm.length; i++) {
+          wellsm[i].setAttribute('class', wellsm[i].getAttribute('class') + ' blocks-night');
+        }
+        for(var i = 0; i < tableTr.length; i++) {
+          var td = tableTr[i].document.getElementsByTagName('td');
+          td[1].setAttribute('class', td[1].getAttribute('class') + ' border-night');
+        }
+        for(var i = 0; i < navLiA.length; i++) {
+          navLiA[i].setAttribute('class', navLiA[i].getAttribute('class') + ' links-night');
+        }
+
+        $scope.isDay = false;
+        $scope.isNight  = true;
+      }else {
+        body.classList.remove('body-night');
+        nav.classList.remove('navbar-night');
+
+        navA.classList.remove('active-night');
+        navBrand.classList.remove('active-night');
+        navBrand.classList.remove('lings-night');
+
+        $scope.isNight = false;
+        $scope.isDay = true;
+
+
+        for(var i = 0; i < wellsm.length; i++) {
+          wellsm[i].classList.remove('blocks-night');
+        }
+        for(var i = 0; i < tableTr.length; i++) {
+          var td = tableTr[i].document.getElementsByTagName('td');
+          td[1].classList.remove('border-night');
+        }
+        for(var i = 0; i < navLiA.length; i++) {
+          navLiA.classList.remove('lings-night');
+        }
+
+      }
+    };
 
     socket.on('initial', function () {
       $scope.kappaPerMinute = initial.kpm();

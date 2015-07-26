@@ -223,3 +223,50 @@ td.p {
 .search-box {
   margin-bottom: 10px;
 }
+
+
+/*
+  SET THIS TO THE BODY
+*/
+.body-night {
+  background-color: rgb(33,33,45);
+  color: #bdbdbd;
+}
+
+/*
+  SET THIS TO THE NAVBAR .navbar-default is the default class of the html element
+*/
+.navbar-night {
+  border-color: transparent;
+  background-color: #3F3F4F;
+}
+
+/*
+  SET THIS TO THE DIV THAT HAS CLASSES well well-sm
+  You can find them under row ng-scope > col-md-4 > well well-sm
+*/
+.blocks-night {
+  background-color: #3F3F4F;
+}
+
+/*
+  ADD THIS TO EACH 2nd TD in every TR of  "table table-striped"
+*/
+.border-night {
+  border-top: 1px solid rgb(33,33,45);
+}
+
+/*
+  ADd this to .navbar-default .navbar-nav > .active > a and .navbar-default .navbar-brand
+*/
+.active-night {
+  color: #fff;
+  background-color: rgb(33,33,45);
+}
+
+/*
+  Add this to .navbar-default .navbar-nav > li > a and .navbar-default .navbar-brand
+*/
+.links-night {
+  color: #B3B3B9;
+}

@@ -54,8 +54,8 @@
             <li style="width: 60px">
               <div class="navbar-form">
                 <a style="cursor: pointer">
-                  <i class="fa fa-sun-o fa-2x" ng-if="status == true" ng-click="changeStatus();" tooltip-placement="right" tooltip="Day Mode"></i>
-                  <i class="fa fa-moon-o fa-2x" ng-if="status == false" ng-click="changeStatus();" tooltip-placement="right" tooltip="Night Mode"></i>
+                  <i class="fa fa-sun-o fa-2x"  ng-show="isDay === true" ng-click="changeScheme()" tooltip-placement="right" tooltip="Day Mode"></i>
+                  <i class="fa fa-moon-o fa-2x" ng-show="isNight === true" ng-click="changeScheme()" tooltip-placement="right" tooltip="Night Mode"></i>
                 </a>
               </div>
             </li>
