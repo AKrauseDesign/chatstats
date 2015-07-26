@@ -9,33 +9,45 @@
  */
 
 
-// TODO: Finish these
+// If you want to only select one element you can
+// omit the multiple argument or pass in false.
+// use these functions in the future when
+// You want to remove classes from elements
 // ---------------------------------------
 function removeClassTag(element, class, multiple) {
+var target;
 if(multiple === true) {
+target = document.getElementsByTagName(element);
 
-}else {
-
-}
-}
-
-function removeClassId(element, class, multiple) {
-if(multiple === true) {
-  var target = document.getElementsById(element);
-  for(var i = 0; element.length; i++) {
-
+  for(var i = 0; i < element.length; i++) {
+    target[i].classList.remove(class);
   }
-  }else {
-
-  }
+} else {
+  target = document.getElementByTagName(element);
+  target.classList.remove(class);
 }
+}
+
+
+
+function removeClassId(element, class) {
+  var target = document.getElementById(element);
+  target.classList.remove(class);
+}
+
 
 function removeClass(element, class, multiple) {
-if(multiple === true) {
+  var target;
+  if(multiple === true) {
+    target = document.getElementsByClassName(element);
 
-}else {
-
-}
+    for(var i = 0; i < element.length; i++) {
+      target[i].classList.remove(class);
+    }
+  } else {
+    target = document.getElementByClassName(element);
+    target.classList.remove(class);
+  }
 }
 // ---------------------------------------
 
@@ -106,6 +118,7 @@ angular.module('websiteApp')
         $scope.isDay = false;
         $scope.isNight  = true;
       }else {
+
         body.classList.remove('body-night');
         nav.classList.remove('navbar-night');
 
