@@ -14,39 +14,39 @@
 // use these functions in the future when
 // You want to remove classes from elements
 // ---------------------------------------
-function removeClassTag(element, class, multiple) {
+function removeClassTag(element, Class, multiple) {
 var target;
 if(multiple === true) {
 target = document.getElementsByTagName(element);
 
-  for(var i = 0; i < element.length; i++) {
-    target[i].classList.remove(class);
+  for(var i = 0; i < target.length; i++) {
+    target[i].classList.remove(Class);
   }
 } else {
   target = document.getElementByTagName(element);
-  target.classList.remove(class);
+  target.classList.remove(Class);
 }
 }
 
 
 
-function removeClassId(element, class) {
+function removeClassId(element, Class) {
   var target = document.getElementById(element);
-  target.classList.remove(class);
+  target.classList.remove(Class);
 }
 
 
-function removeClass(element, class, multiple) {
+function removeClass(element, Class, multiple) {
   var target;
   if(multiple === true) {
     target = document.getElementsByClassName(element);
 
-    for(var i = 0; i < element.length; i++) {
-      target[i].classList.remove(class);
+    for(var i = 0; i < target.length; i++) {
+      target[i].classList.remove(Class);
     }
   } else {
     target = document.getElementByClassName(element);
-    target.classList.remove(class);
+    target.classList.remove(Class);
   }
 }
 // ---------------------------------------
@@ -107,12 +107,12 @@ angular.module('websiteApp')
         for(var i = 0; i < wellsm.length; i++) {
           wellsm[i].setAttribute('class', wellsm[i].getAttribute('class') + ' blocks-night');
         }
-        for(var i = 0; i < tableTr.length; i++) {
-          var td = tableTr[i].document.getElementsByTagName('td');
+        for(var j = 0; j < tableTr.length; j++) {
+          var td = tableTr[j].document.getElementsByTagName('td');
           td[1].setAttribute('class', td[1].getAttribute('class') + ' border-night');
         }
-        for(var i = 0; i < navLiA.length; i++) {
-          navLiA[i].setAttribute('class', navLiA[i].getAttribute('class') + ' links-night');
+        for(var k = 0; k < navLiA.length; k++) {
+          navLiA[k].setAttribute('class', navLiA[k].getAttribute('class') + ' links-night');
         }
 
         $scope.isDay = false;
@@ -130,14 +130,14 @@ angular.module('websiteApp')
         $scope.isDay = true;
 
 
-        for(var i = 0; i < wellsm.length; i++) {
-          wellsm[i].classList.remove('blocks-night');
+        for(var l = 0; l < wellsm.length; l++) {
+          wellsm[l].classList.remove('blocks-night');
         }
-        for(var i = 0; i < tableTr.length; i++) {
-          var td = tableTr[i].document.getElementsByTagName('td');
-          td[1].classList.remove('border-night');
+        for(var m = 0; m < tableTr.length; m++) {
+          var td_r = tableTr[m].document.getElementsByTagName('td');
+          td_r[1].classList.remove('border-night');
         }
-        for(var i = 0; i < navLiA.length; i++) {
+        for(var n = 0; n < navLiA.length; n++) {
           navLiA.classList.remove('lings-night');
         }
 
