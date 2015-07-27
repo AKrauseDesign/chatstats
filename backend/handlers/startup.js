@@ -3,6 +3,8 @@ var request = require('request');
 var logger = require('../utils/logger');
 var config = require('../config');
 
+var channel = config.identity.channels[0];
+
 var emotesGlobal = {};
 var emotesSubscriber = {};
 var emotesBetterttv = {};
@@ -17,21 +19,32 @@ function parseGlobal(obj) {
   obj = JSON.parse(obj);
   var newObj = {};
   for (var emote in obj.emotes) {
-    newObj[emote] = obj.emotes[emote].image_id;
+    if(typeof emote !== 'undefined') {
+      newObj[emote] = obj.emotes[emote].image_id;
+    }
   }
   return newObj;
 }
+
 function parseSubscriber(obj) {
+  obj = JSON.parse(obj);
   var newObj = {};
-  for (var emote in obj.emotes) {
-    newObj[emote] = obj.emotes[emote].image_id;
+  for (var i in obj.channels[channel].emotes) {
+    var j = obj.channels[channel].emotes[i];
+    if(typeof j.code !== 'undefined') {
+      newObj[j.code] = j.image_id;
+    }
   }
   return newObj;
 }
+
 function parseBttv(obj) {
+  obj = JSON.parse(obj);
   var newObj = {};
-  for (var emote in obj.emotes) {
-    newObj[emote] = obj.emotes[emote].image_id;
+  for (var emote in obj) {
+    if(typeof obj[emote].regex !== 'undefined') {
+      newObj[obj[emote].regex] = obj[emote].url;
+    }
   }
   return newObj;
 }
@@ -43,29 +56,29 @@ module.exports = {
       if (!err && res.statusCode === 200) {
         defer.resolve(parseGlobal(body));
       } else {
-        defer.reject(err);
+        defer.reject('Global Emotes');
       }
     });
     return defer.promise;
   },
   getSubscriberEmotes: function(){
     var defer = q.defer();
-    request(emoteURL.global, function(err, res, body) {
+    request(emoteURL.subscriber, function(err, res, body) {
       if (!err && res.statusCode === 200) {
         defer.resolve(parseSubscriber(body));
       } else {
-        defer.reject(err);
+        defer.reject('Subscriber Emotes');
       }
     });
     return defer.promise;
   },
   getBttvEmotes: function(){
     var defer = q.defer();
-    request(emoteURL.global, function(err, res, body) {
+    request(emoteURL.betterttv, function(err, res, body) {
       if (!err && res.statusCode === 200) {
         defer.resolve(parseBttv(body));
       } else {
-        defer.reject(err);
+        defer.reject('BTTV Emotes');
       }
     });
     return defer.promise;

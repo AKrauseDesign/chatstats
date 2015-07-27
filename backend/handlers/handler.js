@@ -1,3 +1,4 @@
+var q               = require('q');
 var userHandler     = require('./users');
 var hashtagHandler  = require('./hashtags');
 var emoteHandler    = require('./emotes');
@@ -6,9 +7,21 @@ var commandHandler  = require('./commands');
 var request         = require('request');
 var kpmodule        = require('./kpm');
 var data            = require('./startup');
+var logger          = require('../utils/logger');
 
-var globalEmotes = data.globalEmotes;
-var subEmotes = data.subEmotes;
+var globalEmotes, subEmotes, Betterttv;
+q.all([
+  data.getGlobalEmotes(),
+  data.getSubscriberEmotes(),
+  data.getBttvEmotes()
+]).spread(function(resGlobal, resSub, resBTTV){
+  globalEmotes  = resGlobal;
+  subEmotes     = resSub;
+  Betterttv     = resBTTV;
+}).fail(function(err){
+  logger.error('Fetching: '+err);
+  return true;
+});
 
 module.exports = function(userObj, message) {
   var user = userObj.username;
@@ -41,10 +54,11 @@ module.exports = function(userObj, message) {
   var emoteObject = {};
 
   for (var emote in globalEmotes) {
-    console.log(name);
+    console.log(emote);
     for (var i = 0; i < words.length; i++) {
-      if (words[i] === name) {
-        if(emotes.hasOwnProperty(emote)) {
+      if (words === emote) {
+        console.log('Found ' + emote);
+        if(emoteObject.hasOwnProperty(emote)) {
           emoteObject[emote]++;
         } else {
           emoteObject[emote] = 1;
@@ -97,6 +111,6 @@ module.exports = function(userObj, message) {
 
   callSubEmoteDB(subEmoteObject);
 
-  // User Handler
+  //User Handler
   userHandler(user, message);
 };
