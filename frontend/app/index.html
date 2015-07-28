@@ -23,13 +23,13 @@
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/animate.css/3.3.0/animate.min.css">
     <base href="/">
   </head>
-  <body ng-app="websiteApp" ng-controller="MainCtrl">
+  <body ng-app="websiteApp" ng-controller="MainCtrl" ng-class="{ 'body-night': isNight }">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-default" role="navigation" ng-class="{ 'navbar-inverse': isNight }">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
@@ -54,8 +54,8 @@
             <li style="width: 60px">
               <div class="navbar-form">
                 <a style="cursor: pointer">
-                  <i class="fa fa-sun-o fa-2x"  ng-show="isDay === true" ng-click="changeScheme()" tooltip-placement="right" tooltip="Day Mode"></i>
-                  <i class="fa fa-moon-o fa-2x" ng-show="isNight === true" ng-click="changeScheme()" tooltip-placement="right" tooltip="Night Mode"></i>
+                  <i class="fa fa-sun-o fa-2x"  ng-show="!isNight" ng-click="changeMode()" tooltip-placement="right" tooltip="Day Mode"></i>
+                  <i class="fa fa-moon-o fa-2x" ng-show="isNight" ng-click="changeMode()" tooltip-placement="right" tooltip="Night Mode"></i>
                 </a>
               </div>
             </li>

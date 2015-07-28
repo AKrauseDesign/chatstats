@@ -38,9 +38,10 @@ angular.module('websiteApp')
     if($scope.chat.length > 0){
       $scope.noChat = false;
     }
-
-    $scope.isDay = true;
     $scope.isNight = false;
+    $scope.changeMode = function(){
+      $scope.isNight = !$scope.isNight;
+    };
 
     socket.on('initial', function () {
       $scope.kappaPerMinute = initial.kpm();
