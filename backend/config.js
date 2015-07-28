@@ -1,3 +1,15 @@
+var chatstats = {
+  // Rows queried per stat counter
+  queryBuffer: 50,
+
+  counters: {
+    // This will enable custom emote per minute counters.
+    'kappa':    false,
+    'pogchamp': false,
+    'xd':       true
+  }
+};
+
 var identity = {
   name: ['izlbot'],
   channels: ['stylerdev'],
@@ -30,6 +42,7 @@ var database = {
 var port = 3000;
 
 module.exports = {
+  chatstats: chatstats,
   tmi: tmi,
   identity: identity,
   bots: ignoredBots,
