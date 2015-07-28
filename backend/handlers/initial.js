@@ -1,4 +1,5 @@
 var request = require('request');
+var q = require('q');
 var kpmodule = require('./kpm');
 var data = require('./startup');
 
@@ -6,11 +7,19 @@ module.exports = function(io, db) {
   var totalMessages, totalUsers, totalHours, allEmotes;
   io.on('connection', function(socket) {
 
-    if (allEmotes === undefined) {
-      allEmotes = data.globalEmotes;
-    }
-    data.getGlobalEmotes().then(function(data){
-      console.log(data);
+    var allEmotes, GlobalEmotes, SubEmotes, BttvEmotes;
+    q.all([
+      data.getGlobalEmotes(),
+      data.getSubscriberEmotes(),
+      data.getBttvEmotes()
+    ]).spread(function(resGlobal, resSub, resBTTV){
+      GlobalEmotes  = resGlobal;
+      SubEmotes     = resSub;
+      BttvEmotes    = resBTTV;
+      allEmotes     = GlobalEmotes.concat(SubEmotes);
+    }).fail(function(err){
+      logger.error('Fetching: '+err);
+      return true;
     });
 
     var users = [];

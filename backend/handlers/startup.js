@@ -3,7 +3,8 @@ var request = require('request');
 var logger = require('../utils/logger');
 var config = require('../config');
 
-var channel = config.identity.channels[0];
+// var channel = config.identity.channels[0];
+var channel = 'massansc';
 
 var emotesGlobal = {};
 var emotesSubscriber = {};

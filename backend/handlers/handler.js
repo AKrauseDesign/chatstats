@@ -118,7 +118,6 @@ module.exports = function(userObj, message) {
   var bttvEmoteObject = {};
 
   for (var bttvEmote in bttvEmotes) {
-    // bttvEmote = bttvEmote.regex;
     for (var f = 0; f < words.length; f++) {
       if (words[f] === bttvEmote) {
         console.log('Found ' + bttvEmote);

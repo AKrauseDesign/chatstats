@@ -8,49 +8,6 @@
  * Controller of the websiteApp
  */
 
-
-// If you want to only select one element you can
-// omit the multiple argument or pass in false.
-// use these functions in the future when
-// You want to remove classes from elements
-// ---------------------------------------
-function removeClassTag(element, Class, multiple) {
-var target;
-if(multiple === true) {
-target = document.getElementsByTagName(element);
-
-  for(var i = 0; i < target.length; i++) {
-    target[i].classList.remove(Class);
-  }
-} else {
-  target = document.getElementByTagName(element);
-  target.classList.remove(Class);
-}
-}
-
-
-
-function removeClassId(element, Class) {
-  var target = document.getElementById(element);
-  target.classList.remove(Class);
-}
-
-
-function removeClass(element, Class, multiple) {
-  var target;
-  if(multiple === true) {
-    target = document.getElementsByClassName(element);
-
-    for(var i = 0; i < target.length; i++) {
-      target[i].classList.remove(Class);
-    }
-  } else {
-    target = document.getElementByClassName(element);
-    target.classList.remove(Class);
-  }
-}
-// ---------------------------------------
-
 angular.module('websiteApp')
   .controller('MainCtrl', function ($rootScope, $interval, $scope, socket, $http, $log, initial) {
     function getTwitchStatus(twitch){
@@ -78,71 +35,12 @@ angular.module('websiteApp')
       horn.play(); //GO HAM
     });
     $scope.chat = [];
-
-    if($scope.chat.length <= 0){
-      $scope.noChat = true;
+    if($scope.chat.length > 0){
+      $scope.noChat = false;
     }
-
-
-
-
 
     $scope.isDay = true;
     $scope.isNight = false;
-    $scope.changeScheme = function() {
-      var body     = document.getElementsByTagName('body');
-      var nav      = document.getElementByClassName('nav');
-      var wellsm   = document.querySelectorAll('.col-md-4 > .well-sm');
-      var tableTr  = document.querySelectorAll('.table-striped > tr');
-      var navA     = document.querySelector('.navbar-default .navbar-nav > .active > a');
-      var navBrand = document.querySelector('.navbar-default .navbar-brand');
-      var navLiA   = document.querySelectorAll('.navbar-default .navbar-nav > li > a');
-
-      if($scope.isLight === true) {
-        body.setAttribute('class', body.getAttribute('class') + ' body-night');
-        nav.setAttribute('class', nav.getAttribute('class') + ' navbar-night');
-        navA.setAttribute('class', navA.getAttribute('class') + ' active-night');
-        navBrand.setAttribute('class', navBrand.getAttribute('class') + ' active-night lings-night');
-
-        for(var i = 0; i < wellsm.length; i++) {
-          wellsm[i].setAttribute('class', wellsm[i].getAttribute('class') + ' blocks-night');
-        }
-        for(var j = 0; j < tableTr.length; j++) {
-          var td = tableTr[j].document.getElementsByTagName('td');
-          td[1].setAttribute('class', td[1].getAttribute('class') + ' border-night');
-        }
-        for(var k = 0; k < navLiA.length; k++) {
-          navLiA[k].setAttribute('class', navLiA[k].getAttribute('class') + ' links-night');
-        }
-
-        $scope.isDay = false;
-        $scope.isNight  = true;
-      }else {
-
-        body.classList.remove('body-night');
-        nav.classList.remove('navbar-night');
-
-        navA.classList.remove('active-night');
-        navBrand.classList.remove('active-night');
-        navBrand.classList.remove('lings-night');
-
-        $scope.isNight = false;
-        $scope.isDay = true;
-
-
-        for(var l = 0; l < wellsm.length; l++) {
-          wellsm[l].classList.remove('blocks-night');
-        }
-        for(var m = 0; m < tableTr.length; m++) {
-          var td_r = tableTr[m].document.getElementsByTagName('td');
-          td_r[1].classList.remove('border-night');
-        }
-        for(var n = 0; n < navLiA.length; n++) {
-          navLiA.classList.remove('lings-night');
-        }
-
-      }
-    };
 
     socket.on('initial', function () {
       $scope.kappaPerMinute = initial.kpm();
