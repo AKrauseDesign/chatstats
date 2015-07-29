@@ -9,7 +9,8 @@
  */
 
 angular.module('websiteApp')
-  .controller('MainCtrl', function ($rootScope, $interval, $scope, socket, $http, $log, initial) {
+  .controller('MainCtrl', function ($rootScope, $interval, $scope, socket, $http, $log, initial, emotes) {
+
     function getTwitchStatus(twitch){
       $http.jsonp("https://api.twitch.tv/kraken/streams/"+twitch+"?callback=JSON_CALLBACK").
       success(function(data) {
