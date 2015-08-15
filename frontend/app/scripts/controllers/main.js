@@ -7,8 +7,10 @@
  * # MainCtrl
  * Controller of the websiteApp
  */
+
 angular.module('websiteApp')
-  .controller('MainCtrl', function ($rootScope, $interval, $scope, socket, $http, $log, initial) {
+  .controller('MainCtrl', function ($rootScope, $interval, $scope, socket, $http, $log, initial, emotes) {
+
     function getTwitchStatus(twitch){
       $http.jsonp("https://api.twitch.tv/kraken/streams/"+twitch+"?callback=JSON_CALLBACK").
       success(function(data) {
@@ -34,10 +36,13 @@ angular.module('websiteApp')
       horn.play(); //GO HAM
     });
     $scope.chat = [];
-
-    if($scope.chat.length <= 0){
-      $scope.noChat = true;
+    if($scope.chat.length > 0){
+      $scope.noChat = false;
     }
+    $scope.isNight = false;
+    $scope.changeMode = function(){
+      $scope.isNight = !$scope.isNight;
+    };
 
     socket.on('initial', function () {
       $scope.kappaPerMinute = initial.kpm();

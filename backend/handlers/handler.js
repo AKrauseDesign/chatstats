@@ -1,14 +1,28 @@
-var userHandler     = require('./users');
-var hashtagHandler  = require('./hashtags');
-var emoteHandler    = require('./emotes');
-var subEmoteHandler = require('./subEmotes');
-var commandHandler  = require('./commands');
-var request         = require('request');
-var kpmodule        = require('./kpm');
-var data            = require('./startup');
+var q                 = require('q');
+var userHandler       = require('./users');
+var hashtagHandler    = require('./hashtags');
+var emoteHandler      = require('./emotes');
+var subEmoteHandler   = require('./subEmotes');
+var bttvEmoteHandler  = require('./bttvEmote');
+var commandHandler    = require('./commands');
+var request           = require('request');
+var kpmodule          = require('./kpm');
+var data              = require('./startup');
+var logger            = require('../utils/logger');
 
-var globalEmotes = data.globalEmotes;
-var subEmotes = data.subEmotes;
+var globalEmotes, subEmotes, bttvEmotes;
+q.all([
+  data.getGlobalEmotes(),
+  data.getSubscriberEmotes(),
+  data.getBttvEmotes()
+]).spread(function(resGlobal, resSub, resBTTV){
+  globalEmotes  = resGlobal;
+  subEmotes     = resSub;
+  bttvEmotes    = resBTTV;
+}).fail(function(err){
+  logger.error('Fetching: '+err);
+  return true;
+});
 
 module.exports = function(userObj, message) {
   var user = userObj.username;
@@ -40,14 +54,13 @@ module.exports = function(userObj, message) {
   var words = message.split(' ');
   var emoteObject = {};
 
-  for (var current = 0; current < globalEmotes.length; current++) {
-    var name = globalEmotes[current].regex;
+  for (var emote in globalEmotes) {
     for (var i = 0; i < words.length; i++) {
-      if (words[i] === name) {
-        if(emoteObject.hasOwnProperty(name)) {
-          emoteObject[name]++;
+      if (words[i] === emote) {
+        if(emoteObject.hasOwnProperty(emote)) {
+          emoteObject[emote]++;
         } else {
-          emoteObject[name] = 1;
+          emoteObject[emote] = 1;
         }
       }
     }
@@ -82,21 +95,42 @@ module.exports = function(userObj, message) {
 
   var subEmoteObject = {};
 
-  for (var subcurrent = 0; subcurrent < subEmotes.length; subcurrent++) {
-    var subname = subEmotes[subcurrent].code;
+  for (var subEmote in subEmotes) {
     for (var e = 0; e < words.length; e++) {
-      if (words[e] === subname) {
-        if(subEmoteObject.hasOwnProperty(subname)) {
-          subEmoteObject[subname]++;
+      if (words[e] === subEmote) {
+        console.log('Found ' + subEmote);
+        if(subEmoteObject.hasOwnProperty(subEmote)) {
+          subEmoteObject[subEmote]++;
         } else {
-          subEmoteObject[subname] = 1;
+          subEmoteObject[subEmote] = 1;
         }
       }
     }
   }
-
   callSubEmoteDB(subEmoteObject);
 
-  // User Handler
+  var callBttvEmoteDB = function(emoteObject) {
+    for (var emote in emoteObject) {
+      bttvEmoteHandler(emote, emoteObject[emote], user, message);
+    }
+  };
+
+  var bttvEmoteObject = {};
+
+  for (var bttvEmote in bttvEmotes) {
+    for (var f = 0; f < words.length; f++) {
+      if (words[f] === bttvEmote) {
+        console.log('Found ' + bttvEmote);
+        if(bttvEmoteObject.hasOwnProperty(bttvEmote)) {
+          bttvEmoteObject[bttvEmote]++;
+        } else {
+          bttvEmoteObject[bttvEmote] = 1;
+        }
+      }
+    }
+  }
+  callBttvEmoteDB(bttvEmoteObject);
+
+  //User Handler
   userHandler(user, message);
 };

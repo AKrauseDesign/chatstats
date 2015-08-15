@@ -36,9 +36,8 @@ body {
 
 /* Custom page footer */
 .footer {
-  padding-top: 19px;
+  padding-top: 20px;
   color: #777;
-  border-top: 1px solid #e5e5e5;
 }
 
 .container-narrow > hr {
@@ -222,4 +221,40 @@ td.p {
 }
 .search-box {
   margin-bottom: 10px;
+}
+
+
+/*
+  SET THIS TO THE BODY
+*/
+.body-night {
+  background-color: #0C0C0C;
+  color: #bdbdbd;
+  transition: all 0.5s;
+}
+
+/*
+  SET THIS TO THE NAVBAR .navbar-default is the default class of the html element
+*/
+.navbar-night {
+  border-color: transparent;
+  background-color: #3F3F4F;
+  transition: all 0.5s;
+}
+
+/*
+  SET THIS TO THE DIV THAT HAS CLASSES well well-sm
+  You can find them under row ng-scope > col-md-4 > well well-sm
+*/
+.blocks-night {
+  background-color: #3F3F4F;
+  transition: all 0.5s;
+}
+
+/*
+  ADD THIS TO EACH 2nd TD in every TR of  "table table-striped"
+*/
+.border-night {
+  background-color: #363644 !important;
+  border-top: 1px solid rgb(33,33,45) !important;
 }

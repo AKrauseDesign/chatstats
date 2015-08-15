@@ -1,118 +1,120 @@
 var request = require('request');
+var q = require('q');
 var kpmodule = require('./kpm');
 var data = require('./startup');
+var config = require('../config');
+var queryBuffer = config.chatstats.queryBuffer;
 
 module.exports = function(io, db) {
-  var totalMessages, totalUsers, totalHours, allEmotes;
-  io.on('connection', function(socket) {
-
-    if (allEmotes === undefined) {
-      allEmotes = data.globalEmotes;
-    }
-
-    var users = [];
-    var commands = [];
-    var emotes = [];
-    var subEmotes = [];
-    var hashtags = [];
-
-    db.Users.sum('count').then(function(messageCount) {
-      totalMessages = messageCount;
-    }).then(function() {
-      db.Users.count().then(function(userCount) {
-        totalUsers = userCount;
-      }).then(function() {
-        db.Users.sum('watchedTime').then(function(timeCount) {
-          totalHours = timeCount;
-        }).then(function() {
-          db.Subemotes.findAll({
-            limit: 40,
-            order: 'count DESC'
-          }).then(function(subemote) {
-            for (var i in subemote) {
-              subEmotes.push({
-                emote: subemote[i].emote,
-                lastUser: subemote[i].lastUser,
-                lastMsg: subemote[i].lastMsg,
-                lastMsgDate: subemote[i].updatedAt,
-                count: subemote[i].count
-              });
-            }
-          }).then(function() {
-            db.Emotes.findAll({
-              limit: 40,
-              order: 'count DESC'
-            }).then(function(emote) {
-              for (var i in emote) {
-                emotes.push({
-                  emote: emote[i].emote,
-                  lastUser: emote[i].lastUser,
-                  lastMsg: emote[i].lastMsg,
-                  lastMsgDate: emote[i].updatedAt,
-                  count: emote[i].count
-                });
-              }
-            });
-          }).then(function() {
-            db.Hashtags.findAll({
-              limit: 40,
-              order: 'count DESC'
-            }).then(function(hashtag) {
-              for (var i in hashtag) {
-                hashtags.push({
-                  hashtag: hashtag[i].hashtag,
-                  lastUser: hashtag[i].lastUser,
-                  lastMsg: hashtag[i].lastMsg,
-                  lastMsgDate: hashtag[i].updatedAt,
-                  count: hashtag[i].count
-                });
-              }
-            });
-          }).then(function() {
-            db.Commands.findAll({
-              limit: 40,
-              order: 'count DESC'
-            }).then(function(command) {
-              for (var i in command) {
-                commands.push({
-                  command: command[i].command,
-                  lastUser: command[i].lastUser,
-                  lastMsg: command[i].lastMsg,
-                  lastMsgDate: command[i].updatedAt,
-                  count: command[i].count
-                });
-              }
-            });
-          }).then(function() {
-            db.Users.findAll({
-              limit: 40,
-              order: 'count DESC'
-            }).then(function(user) {
-              for (var i in user) {
-                users.push({
-                  name: user[i].name,
-                  lastMsg: user[i].lastMsg,
-                  watchedTime: user[i].watchedTime,
-                  lastMsgDate: user[i].updatedAt,
-                  count: user[i].count
-                });
-              }
-            }).then(function() {
-              socket.emit('initial', {
-                totalUsers: totalUsers,
-                totalMessages: totalMessages,
-                totalWatched: totalHours,
-                users: users,
-                commands: commands,
-                emotes: emotes,
-                subEmotes: subEmotes,
-                hashtags: hashtags,
-                allEmotes: allEmotes
-              });
-            });
-          });
-        });
-      });
-    });
+	var totalMessages, totalUsers, totalHours, allEmotes, GlobalEmotes, SubEmotes, BttvEmotes;
+  q.all([
+    data.getGlobalEmotes(),
+    data.getSubscriberEmotes(),
+    data.getBttvEmotes()
+  ]).spread(function(resGlobal, resSub, resBTTV) {
+    GlobalEmotes = resGlobal;
+    SubEmotes = resSub;
+    BttvEmotes = resBTTV;
+    allEmotes = GlobalEmotes.concat(SubEmotes);
+  }).fail(function(err) {
+    logger.error('Fetching: ' + err);
+    return true;
   });
+
+	io.on('connection', function(socket) {
+		var users = [];
+		var commands = [];
+		var emotes = [];
+		var subEmotes = [];
+		var hashtags = [];
+
+		q.all([
+			db.Users.sum('count'),
+			db.Users.count(),
+			db.Users.sum('watchedTime'),
+			db.Subemotes.findAll({
+				limit: queryBuffer,
+				order: 'count DESC'
+			}),
+			db.Emotes.findAll({
+				limit: queryBuffer,
+				order: 'count DESC'
+			}),
+			db.Hashtags.findAll({
+				limit: queryBuffer,
+				order: 'count DESC'
+			}),
+			db.Commands.findAll({
+				limit: queryBuffer,
+				order: 'count DESC'
+			}),
+			db.Users.findAll({
+				limit: queryBuffer,
+				order: 'count DESC'
+			})
+		]).spread(function(messageCount, userCount, timeCount, subemote, emote, hashtag, command, user) {
+
+      totalMessages = messageCount;
+      totalUsers    = userCount;
+      totalHours    = timeCount;
+
+      for (var se in subemote) {
+				subEmotes.push({
+					emote: subemote[se].emote,
+					lastUser: subemote[se].lastUser,
+					lastMsg: subemote[se].lastMsg,
+					lastMsgDate: subemote[se].updatedAt,
+					count: subemote[se].count
+				});
+			}
+			for (var e in emote) {
+				emotes.push({
+					emote: emote[e].emote,
+					lastUser: emote[e].lastUser,
+					lastMsg: emote[e].lastMsg,
+					lastMsgDate: emote[e].updatedAt,
+					count: emote[e].count
+				});
+			}
+			for (var h in hashtag) {
+				hashtags.push({
+					hashtag: hashtag[h].hashtag,
+					lastUser: hashtag[h].lastUser,
+					lastMsg: hashtag[h].lastMsg,
+					lastMsgDate: hashtag[h].updatedAt,
+					count: hashtag[h].count
+				});
+			}
+			for (var c in command) {
+				commands.push({
+					command: command[c].command,
+					lastUser: command[c].lastUser,
+					lastMsg: command[c].lastMsg,
+					lastMsgDate: command[c].updatedAt,
+					count: command[c].count
+				});
+			}
+			for (var u in user) {
+				users.push({
+					name: user[u].name,
+					lastMsg: user[u].lastMsg,
+					watchedTime: user[u].watchedTime,
+					lastMsgDate: user[u].updatedAt,
+					count: user[u].count
+				});
+			}
+		}).then(function(data) {
+      socket.emit('initial', {
+        totalUsers: totalUsers,
+        totalMessages: totalMessages,
+        totalWatched: totalHours,
+        users: users,
+        commands: commands,
+        emotes: emotes,
+        hashtags: hashtags,
+      });
+		}).fail(function(err) {
+      logger.error('Fetching: ' + err);
+		});
+	});
 };

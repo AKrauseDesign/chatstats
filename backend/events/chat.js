@@ -17,7 +17,6 @@ module.exports = function(client, io, db) {
     if(inArray(user.username, bots)) {
       console.log('Bot Message');
     } else {
-      console.log('Chat!');
       totalMessages++;
       // Global Database Handler
       handler(user, message);
